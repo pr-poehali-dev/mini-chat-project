@@ -151,30 +151,32 @@ const Index = () => {
 
       <div className="max-w-7xl mx-auto p-3 md:p-6">
         <div className={`grid gap-3 md:gap-6 ${isChatVisible ? 'grid-cols-1 lg:grid-cols-3' : 'grid-cols-1'}`}>
-          {/* Main Content */}
-          <div className={isChatVisible ? 'lg:col-span-2' : 'col-span-1'}>
-            <ServerListing servers={servers} />
+          {/* Chat Sidebar - показывается первым на мобильных */}
+          <div className={`order-1 lg:order-2 ${isChatVisible ? 'block' : 'hidden'}`}>
+            <Chat
+              isVisible={isChatVisible}
+              onClose={toggleChat}
+              chatMessages={chatMessages}
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+              activeChatId={activeChatId}
+              setActiveChatId={setActiveChatId}
+              newMessage={newMessage}
+              setNewMessage={setNewMessage}
+              privateChats={privateChats}
+              isPrivateChatOpen={isPrivateChatOpen}
+              onSendMessage={handleSendMessage}
+              onUserMention={handleUserMention}
+              onChatSelect={handleChatSelect}
+              onBackToChats={handleBackToChats}
+              cooldownRemaining={cooldownRemaining}
+            />
           </div>
 
-          {/* Chat Sidebar */}
-          <Chat
-            isVisible={isChatVisible}
-            onClose={toggleChat}
-            chatMessages={chatMessages}
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
-            activeChatId={activeChatId}
-            setActiveChatId={setActiveChatId}
-            newMessage={newMessage}
-            setNewMessage={setNewMessage}
-            privateChats={privateChats}
-            isPrivateChatOpen={isPrivateChatOpen}
-            onSendMessage={handleSendMessage}
-            onUserMention={handleUserMention}
-            onChatSelect={handleChatSelect}
-            onBackToChats={handleBackToChats}
-            cooldownRemaining={cooldownRemaining}
-          />
+          {/* Main Content - показывается вторым на мобильных */}
+          <div className={`order-2 lg:order-1 ${isChatVisible ? 'lg:col-span-2' : 'col-span-1'}`}>
+            <ServerListing servers={servers} />
+          </div>
         </div>
       </div>
     </div>
