@@ -21,6 +21,8 @@ const Index = () => {
   const [privateChats, setPrivateChats] = useState(new Map());
   const [isPrivateChatOpen, setIsPrivateChatOpen] = useState(false);
   const [isChatVisible, setIsChatVisible] = useState(true);
+  const [lastMessageTime, setLastMessageTime] = useState(0);
+  const [cooldownRemaining, setCooldownRemaining] = useState(0);
 
   const servers = [
     {
@@ -74,7 +76,28 @@ const Index = () => {
   };
 
   const handleSendMessage = () => {
-    if (newMessage.trim()) {
+    const now = Date.now();
+    const timeSinceLastMessage = now - lastMessageTime;
+    const cooldownMs = 5000; // 5 секунд
+    
+    if (timeSinceLastMessage < cooldownMs) {
+      const remaining = Math.ceil((cooldownMs - timeSinceLastMessage) / 1000);
+      setCooldownRemaining(remaining);
+      
+      const timer = setInterval(() => {
+        setCooldownRemaining(prev => {
+          if (prev <= 1) {
+            clearInterval(timer);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+      
+      return;
+    }
+    
+    if (newMessage.trim() && newMessage.length <= 500) {
       const mentionMatch = newMessage.match(/@(\w+)/);
       let targetChatId = activeChatId;
       let messageType = activeTab;
@@ -110,6 +133,7 @@ const Index = () => {
       
       setChatMessages([...chatMessages, message]);
       setNewMessage('');
+      setLastMessageTime(now);
     }
   };
 
@@ -443,7 +467,7 @@ const Index = () => {
                           </span>
                           <span className="text-xs text-slate-400">{msg.time}</span>
                         </div>
-                        <p className="text-sm text-slate-300">
+                        <p className="text-sm text-slate-300 break-words whitespace-pre-wrap">
                           {msg.message.split(/(@\w+)/g).map((part, index) => {
                             if (part.startsWith('@')) {
                               return (
@@ -462,15 +486,33 @@ const Index = () => {
                 
                 <div className="p-4 border-t border-slate-700">
                   <div className="flex space-x-2">
-                    <Input
-                      placeholder="Сообщение... (@ для упоминаний)"
-                      value={newMessage}
-                      onChange={(e) => setNewMessage(e.target.value)}
-                      onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                      className="flex-1 bg-slate-700 border-slate-600 focus:border-blue-500"
-                    />
-                    <Button onClick={handleSendMessage} className="bg-green-600 hover:bg-green-700">
-                      <Icon name="Send" size={16} />
+                    <div className="flex-1 relative">
+                      <Input
+                        placeholder="Сообщение... (@ для упоминаний)"
+                        value={newMessage}
+                        onChange={(e) => {
+                          if (e.target.value.length <= 500) {
+                            setNewMessage(e.target.value);
+                          }
+                        }}
+                        onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && handleSendMessage()}
+                        className="bg-slate-700 border-slate-600 focus:border-blue-500 pr-12"
+                        disabled={cooldownRemaining > 0}
+                      />
+                      <div className="absolute right-2 top-1/2 transform -translate-y-1/2 text-xs text-slate-400">
+                        {newMessage.length}/500
+                      </div>
+                    </div>
+                    <Button 
+                      onClick={handleSendMessage} 
+                      className="bg-green-600 hover:bg-green-700"
+                      disabled={cooldownRemaining > 0 || newMessage.length > 500 || !newMessage.trim()}
+                    >
+                      {cooldownRemaining > 0 ? (
+                        <span className="text-sm">{cooldownRemaining}s</span>
+                      ) : (
+                        <Icon name="Send" size={16} />
+                      )}
                     </Button>
                   </div>
                 </div>
