@@ -20,6 +20,7 @@ const Index = () => {
   const [newMessage, setNewMessage] = useState('');
   const [privateChats, setPrivateChats] = useState(new Map());
   const [isPrivateChatOpen, setIsPrivateChatOpen] = useState(false);
+  const [isChatVisible, setIsChatVisible] = useState(true);
 
   const servers = [
     {
@@ -125,6 +126,10 @@ const Index = () => {
     setIsPrivateChatOpen(false);
   };
 
+  const toggleChat = () => {
+    setIsChatVisible(!isChatVisible);
+  };
+
   return (
     <div className="min-h-screen bg-slate-900 text-white">
       {/* Header */}
@@ -153,6 +158,15 @@ const Index = () => {
               <Icon name="Plus" size={16} className="mr-2" />
               Add Listing
             </Button>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={toggleChat}
+              className="border-slate-600 hover:bg-slate-700"
+            >
+              <Icon name="MessageCircle" size={16} className="mr-2" />
+              Чат
+            </Button>
             <Button variant="destructive">
               <Icon name="LogOut" size={16} className="mr-2" />
               Logout
@@ -162,9 +176,9 @@ const Index = () => {
       </header>
 
       <div className="max-w-7xl mx-auto p-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className={`grid gap-6 ${isChatVisible ? 'grid-cols-1 lg:grid-cols-3' : 'grid-cols-1'}`}>
           {/* Main Content */}
-          <div className="lg:col-span-2">
+          <div className={isChatVisible ? 'lg:col-span-2' : 'col-span-1'}>
             {/* Navigation Tabs */}
             <div className="mb-6">
               <Tabs defaultValue="listings" className="w-full">
@@ -322,8 +336,9 @@ const Index = () => {
           </div>
 
           {/* Chat Sidebar */}
-          <div className="lg:col-span-1">
-            <Card className="bg-slate-800 border-slate-700 h-[600px] flex flex-col">
+          {isChatVisible && (
+            <div className="lg:col-span-1">
+              <Card className="bg-slate-800 border-slate-700 h-[600px] flex flex-col">
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-lg">
@@ -332,17 +347,27 @@ const Index = () => {
                       : 'Чат'
                     }
                   </CardTitle>
-                  {isPrivateChatOpen && activeTab === 'private' && (
+                  <div className="flex items-center space-x-2">
+                    {isPrivateChatOpen && activeTab === 'private' && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={handleBackToChats}
+                        className="text-slate-400 hover:text-white"
+                      >
+                        <Icon name="ArrowLeft" size={16} className="mr-1" />
+                        Все чаты
+                      </Button>
+                    )}
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={handleBackToChats}
+                      onClick={toggleChat}
                       className="text-slate-400 hover:text-white"
                     >
-                      <Icon name="ArrowLeft" size={16} className="mr-1" />
-                      Все чаты
+                      <Icon name="X" size={16} />
                     </Button>
-                  )}
+                  </div>
                 </div>
               </CardHeader>
               
@@ -452,6 +477,7 @@ const Index = () => {
               </CardContent>
             </Card>
           </div>
+          )}
         </div>
       </div>
     </div>
