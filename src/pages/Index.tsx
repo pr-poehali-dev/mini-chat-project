@@ -449,15 +449,15 @@ const Index = () => {
               </div>
               
               <CardContent className="flex-1 flex flex-col p-0">
-                <div className="flex-1 overflow-y-auto px-6 space-y-3">
+                <div className="flex-1 overflow-y-auto px-6 space-y-3 max-w-full">
                   {(activeTab === 'global' || (activeTab === 'private' && isPrivateChatOpen)) && filteredMessages.map((msg) => (
-                    <div key={msg.id} className="flex items-start space-x-3">
+                    <div key={msg.id} className="flex items-start space-x-3 max-w-full">
                       <Avatar className="w-8 h-8 mt-1">
                         <AvatarFallback className="text-xs bg-slate-700">
                           {msg.user.slice(0, 2)}
                         </AvatarFallback>
                       </Avatar>
-                      <div className="flex-1">
+                      <div className="flex-1 min-w-0 max-w-full">
                         <div className="flex items-center space-x-2 mb-1">
                           <span 
                             className="font-semibold text-sm cursor-pointer hover:text-blue-400 transition-colors"
@@ -467,7 +467,7 @@ const Index = () => {
                           </span>
                           <span className="text-xs text-slate-400">{msg.time}</span>
                         </div>
-                        <p className="text-sm text-slate-300 break-words whitespace-pre-wrap">
+                        <p className="text-sm text-slate-300 break-words word-wrap break-all whitespace-pre-wrap overflow-hidden max-w-full hyphens-auto">
                           {msg.message.split(/(@\w+)/g).map((part, index) => {
                             if (part.startsWith('@')) {
                               return (
