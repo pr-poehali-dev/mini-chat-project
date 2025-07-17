@@ -16,7 +16,7 @@ interface ChatContainerProps {
   filteredMessages: ChatMessage[];
   blockedUsers: Set<string>;
   blockedCount: number;
-  showBlockedMessages: Set<string>;
+  showBlockedMessages?: Set<string>;
   newMessage: string;
   setNewMessage: (message: string) => void;
   cooldownRemaining: number;

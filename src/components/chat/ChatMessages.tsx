@@ -9,7 +9,7 @@ interface ChatMessagesProps {
   blockedUsers: Set<string>;
   blockedCount: number;
   activeChatId: string;
-  showBlockedMessages: Set<string>;
+  showBlockedMessages?: Set<string>;
   onUserMention: (username: string) => void;
   onBlockUser: (username: string) => void;
   onUnblockUser: (username: string) => void;
@@ -45,7 +45,7 @@ const ChatMessages = ({
               className="text-xs text-blue-400 hover:text-blue-300 transition-colors"
               onClick={() => onToggleBlockedMessages(activeChatId)}
             >
-              {showBlockedMessages.has(activeChatId) ? 'Скрыть' : 'Открыть'}
+              {showBlockedMessages?.has(activeChatId) ? 'Скрыть' : 'Открыть'}
             </button>
           </div>
         </div>
@@ -55,7 +55,7 @@ const ChatMessages = ({
         const isBlocked = blockedUsers.has(msg.user);
         
         if (isBlocked) {
-          if (showBlockedMessages.has(activeChatId)) {
+          if (showBlockedMessages?.has(activeChatId)) {
             return (
               <div key={msg.id} className="mb-3 p-3 bg-slate-700/30 rounded-lg border border-slate-600">
                 <div className="flex items-center justify-between mb-3">
