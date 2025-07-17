@@ -19,6 +19,7 @@ const Index = () => {
   const [activeChatId, setActiveChatId] = useState('global');
   const [newMessage, setNewMessage] = useState('');
   const [privateChats, setPrivateChats] = useState(new Map());
+  const [isPrivateChatOpen, setIsPrivateChatOpen] = useState(false);
 
   const servers = [
     {
@@ -93,6 +94,7 @@ const Index = () => {
           
           setActiveTab('private');
           setActiveChatId(targetChatId);
+          setIsPrivateChatOpen(true);
         }
       }
       
@@ -116,6 +118,11 @@ const Index = () => {
 
   const handleChatSelect = (chatId) => {
     setActiveChatId(chatId);
+    setIsPrivateChatOpen(true);
+  };
+
+  const handleBackToChats = () => {
+    setIsPrivateChatOpen(false);
   };
 
   return (
@@ -155,9 +162,9 @@ const Index = () => {
       </header>
 
       <div className="max-w-7xl mx-auto p-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className={`grid gap-6 ${isPrivateChatOpen && activeTab === 'private' ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-3'}`}>
           {/* Main Content */}
-          <div className="lg:col-span-2">
+          <div className={isPrivateChatOpen && activeTab === 'private' ? 'hidden' : 'lg:col-span-2'}>
             {/* Navigation Tabs */}
             <div className="mb-6">
               <Tabs defaultValue="listings" className="w-full">
@@ -315,10 +322,28 @@ const Index = () => {
           </div>
 
           {/* Chat Sidebar */}
-          <div className="lg:col-span-1">
-            <Card className="bg-slate-800 border-slate-700 h-[600px] flex flex-col">
+          <div className={isPrivateChatOpen && activeTab === 'private' ? 'col-span-1' : 'lg:col-span-1'}>
+            <Card className={`bg-slate-800 border-slate-700 flex flex-col ${isPrivateChatOpen && activeTab === 'private' ? 'h-[80vh]' : 'h-[600px]'}`}>
               <CardHeader className="pb-3">
-                <CardTitle className="text-lg">Чат</CardTitle>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-lg">
+                    {isPrivateChatOpen && activeTab === 'private' && activeChatId !== 'global' 
+                      ? `Чат с ${activeChatId.replace('private-', '')}`
+                      : 'Чат'
+                    }
+                  </CardTitle>
+                  {isPrivateChatOpen && activeTab === 'private' && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBackToChats}
+                      className="text-slate-400 hover:text-white"
+                    >
+                      <Icon name="ArrowLeft" size={16} className="mr-1" />
+                      Назад
+                    </Button>
+                  )}
+                </div>
               </CardHeader>
               
               <div className="px-6 pb-3">
@@ -326,9 +351,11 @@ const Index = () => {
                   setActiveTab(value);
                   if (value === 'global') {
                     setActiveChatId('global');
+                    setIsPrivateChatOpen(false);
                   } else if (privateChats.size > 0) {
                     const firstPrivateChat = Array.from(privateChats.keys())[0];
                     setActiveChatId(`private-${firstPrivateChat}`);
+                    setIsPrivateChatOpen(false);
                   }
                 }}>
                   <TabsList className="grid w-full grid-cols-2 bg-slate-700">
@@ -341,7 +368,7 @@ const Index = () => {
                   </TabsList>
                 </Tabs>
                 
-                {activeTab === 'private' && (
+                {activeTab === 'private' && !isPrivateChatOpen && (
                   <div className="mt-3 space-y-1">
                     {Array.from(privateChats.entries()).map(([username, chatInfo]) => (
                       <button
@@ -374,7 +401,7 @@ const Index = () => {
               
               <CardContent className="flex-1 flex flex-col p-0">
                 <div className="flex-1 overflow-y-auto px-6 space-y-3">
-                  {filteredMessages.map((msg) => (
+                  {(activeTab === 'global' || (activeTab === 'private' && isPrivateChatOpen)) && filteredMessages.map((msg) => (
                     <div key={msg.id} className="flex items-start space-x-3">
                       <Avatar className="w-8 h-8 mt-1">
                         <AvatarFallback className="text-xs bg-slate-700">
