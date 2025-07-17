@@ -46,8 +46,8 @@ const ChatHeader = ({
               {/* Приватный чат */}
               {activeTab === 'private' && (
                 <div className="flex items-center space-x-1 bg-slate-600 dark:bg-slate-600 bg-gray-300 px-2 py-1 rounded-full">
-                  <div className="w-2 h-2 bg-slate-400 rounded-full animate-pulse"></div>
-                  <span className="text-xs text-slate-400 font-medium">{privateChats?.size || 0}</span>
+                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                  <span className="text-xs text-blue-400 font-medium">{privateChats?.size || 0}</span>
                 </div>
               )}
             </>
