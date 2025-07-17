@@ -162,9 +162,9 @@ const Index = () => {
       </header>
 
       <div className="max-w-7xl mx-auto p-6">
-        <div className={`grid gap-6 ${isPrivateChatOpen && activeTab === 'private' ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-3'}`}>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Main Content */}
-          <div className={isPrivateChatOpen && activeTab === 'private' ? 'hidden' : 'lg:col-span-2'}>
+          <div className="lg:col-span-2">
             {/* Navigation Tabs */}
             <div className="mb-6">
               <Tabs defaultValue="listings" className="w-full">
@@ -322,8 +322,8 @@ const Index = () => {
           </div>
 
           {/* Chat Sidebar */}
-          <div className={isPrivateChatOpen && activeTab === 'private' ? 'col-span-1' : 'lg:col-span-1'}>
-            <Card className={`bg-slate-800 border-slate-700 flex flex-col ${isPrivateChatOpen && activeTab === 'private' ? 'h-[80vh]' : 'h-[600px]'}`}>
+          <div className="lg:col-span-1">
+            <Card className="bg-slate-800 border-slate-700 h-[600px] flex flex-col">
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-lg">
