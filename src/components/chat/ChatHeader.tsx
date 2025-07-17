@@ -10,6 +10,7 @@ interface ChatHeaderProps {
   onBackToChats: () => void;
   onToggleFullscreen?: () => void;
   onClose: () => void;
+  privateChats?: Map<string, any>;
 }
 
 const ChatHeader = ({
@@ -19,7 +20,8 @@ const ChatHeader = ({
   isFullscreen = false,
   onBackToChats,
   onToggleFullscreen,
-  onClose
+  onClose,
+  privateChats
 }: ChatHeaderProps) => {
   return (
     <CardHeader className="pb-2 pt-3">
@@ -31,12 +33,24 @@ const ChatHeader = ({
               : isFullscreen ? 'Чат (Полноэкранный режим)' : 'Чат'
             }
           </span>
-          {/* Индикатор онлайн - показываем только в основном чате */}
+          {/* Индикатор онлайн */}
           {!isPrivateChatOpen && (
-            <div className="flex items-center space-x-1 bg-slate-700 dark:bg-slate-700 bg-gray-200 px-2 py-1 rounded-full">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <span className="text-xs text-green-400 font-medium">2</span>
-            </div>
+            <>
+              {/* Глобальный чат */}
+              {activeTab === 'global' && (
+                <div className="flex items-center space-x-1 bg-slate-700 dark:bg-slate-700 bg-gray-200 px-2 py-1 rounded-full">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="text-xs text-green-400 font-medium">2</span>
+                </div>
+              )}
+              {/* Приватный чат */}
+              {activeTab === 'private' && (
+                <div className="flex items-center space-x-1 bg-slate-600 dark:bg-slate-600 bg-gray-300 px-2 py-1 rounded-full">
+                  <div className="w-2 h-2 bg-slate-400 rounded-full animate-pulse"></div>
+                  <span className="text-xs text-slate-400 font-medium">{privateChats?.size || 0}</span>
+                </div>
+              )}
+            </>
           )}
         </CardTitle>
         <div className="flex items-center space-x-1">

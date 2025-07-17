@@ -79,6 +79,7 @@ const ChatContainer = ({
           onBackToChats={onBackToChats}
           onToggleFullscreen={onToggleFullscreen}
           onClose={onClose}
+          privateChats={privateChats}
         />
         
         <ChatTabs
