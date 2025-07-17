@@ -10,13 +10,15 @@ import Icon from '@/components/ui/icon';
 
 const Index = () => {
   const [chatMessages, setChatMessages] = useState([
-    { id: 1, user: 'Админ', message: 'Добро пожаловать на доску объявлений Discord!', type: 'global', time: '16:12' },
-    { id: 2, user: 'MikeGamer', message: 'Продаю приват рекламу для MIKU TAG', type: 'global', time: '16:15' },
-    { id: 3, user: 'YuriMaster', message: 'Ищу партнеров для развития сервера', type: 'global', time: '16:18' }
+    { id: 1, user: 'Админ', message: 'Добро пожаловать на доску объявлений Discord!', type: 'global', time: '16:12', chatId: 'global' },
+    { id: 2, user: 'MikeGamer', message: 'Продаю приват рекламу для MIKU TAG', type: 'global', time: '16:15', chatId: 'global' },
+    { id: 3, user: 'YuriMaster', message: 'Ищу партнеров для развития сервера', type: 'global', time: '16:18', chatId: 'global' }
   ]);
   
   const [activeTab, setActiveTab] = useState('global');
+  const [activeChatId, setActiveChatId] = useState('global');
   const [newMessage, setNewMessage] = useState('');
+  const [privateChats, setPrivateChats] = useState(new Map());
 
   const servers = [
     {
@@ -63,21 +65,58 @@ const Index = () => {
     }
   ];
 
+  const handleUserMention = (username) => {
+    if (username !== 'Вы') {
+      setNewMessage(prev => prev + `@${username} `);
+    }
+  };
+
   const handleSendMessage = () => {
     if (newMessage.trim()) {
+      const mentionMatch = newMessage.match(/@(\w+)/);
+      let targetChatId = activeChatId;
+      let messageType = activeTab;
+      
+      if (mentionMatch) {
+        const mentionedUser = mentionMatch[1];
+        if (mentionedUser !== 'Вы') {
+          targetChatId = `private-${mentionedUser}`;
+          messageType = 'private';
+          
+          if (!privateChats.has(mentionedUser)) {
+            setPrivateChats(new Map(privateChats.set(mentionedUser, {
+              name: mentionedUser,
+              lastMessage: null,
+              unread: false
+            })));
+          }
+          
+          setActiveTab('private');
+          setActiveChatId(targetChatId);
+        }
+      }
+      
       const message = {
         id: Date.now(),
         user: 'Вы',
         message: newMessage,
-        type: activeTab,
-        time: new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })
+        type: messageType,
+        time: new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }),
+        chatId: targetChatId
       };
+      
       setChatMessages([...chatMessages, message]);
       setNewMessage('');
     }
   };
 
-  const filteredMessages = chatMessages.filter(msg => msg.type === activeTab);
+  const filteredMessages = activeTab === 'global' 
+    ? chatMessages.filter(msg => msg.type === 'global')
+    : chatMessages.filter(msg => msg.chatId === activeChatId);
+
+  const handleChatSelect = (chatId) => {
+    setActiveChatId(chatId);
+  };
 
   return (
     <div className="min-h-screen bg-slate-900 text-white">
@@ -283,7 +322,15 @@ const Index = () => {
               </CardHeader>
               
               <div className="px-6 pb-3">
-                <Tabs value={activeTab} onValueChange={setActiveTab}>
+                <Tabs value={activeTab} onValueChange={(value) => {
+                  setActiveTab(value);
+                  if (value === 'global') {
+                    setActiveChatId('global');
+                  } else if (privateChats.size > 0) {
+                    const firstPrivateChat = Array.from(privateChats.keys())[0];
+                    setActiveChatId(`private-${firstPrivateChat}`);
+                  }
+                }}>
                   <TabsList className="grid w-full grid-cols-2 bg-slate-700">
                     <TabsTrigger value="global" className="data-[state=active]:bg-green-600">
                       Глобальный
@@ -293,6 +340,36 @@ const Index = () => {
                     </TabsTrigger>
                   </TabsList>
                 </Tabs>
+                
+                {activeTab === 'private' && (
+                  <div className="mt-3 space-y-1">
+                    {Array.from(privateChats.entries()).map(([username, chatInfo]) => (
+                      <button
+                        key={username}
+                        onClick={() => handleChatSelect(`private-${username}`)}
+                        className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors ${
+                          activeChatId === `private-${username}` 
+                            ? 'bg-blue-600 text-white' 
+                            : 'hover:bg-slate-600 text-slate-300'
+                        }`}
+                      >
+                        <div className="flex items-center space-x-2">
+                          <Avatar className="w-6 h-6">
+                            <AvatarFallback className="text-xs">
+                              {username.slice(0, 2)}
+                            </AvatarFallback>
+                          </Avatar>
+                          <span>{username}</span>
+                        </div>
+                      </button>
+                    ))}
+                    {privateChats.size === 0 && (
+                      <p className="text-sm text-slate-400 text-center py-4">
+                        Нет приватных чатов
+                      </p>
+                    )}
+                  </div>
+                )}
               </div>
               
               <CardContent className="flex-1 flex flex-col p-0">
@@ -306,10 +383,26 @@ const Index = () => {
                       </Avatar>
                       <div className="flex-1">
                         <div className="flex items-center space-x-2 mb-1">
-                          <span className="font-semibold text-sm">{msg.user}</span>
+                          <span 
+                            className="font-semibold text-sm cursor-pointer hover:text-blue-400 transition-colors"
+                            onClick={() => handleUserMention(msg.user)}
+                          >
+                            {msg.user}
+                          </span>
                           <span className="text-xs text-slate-400">{msg.time}</span>
                         </div>
-                        <p className="text-sm text-slate-300">{msg.message}</p>
+                        <p className="text-sm text-slate-300">
+                          {msg.message.split(/(@\w+)/g).map((part, index) => {
+                            if (part.startsWith('@')) {
+                              return (
+                                <span key={index} className="text-blue-400 font-medium">
+                                  {part}
+                                </span>
+                              );
+                            }
+                            return part;
+                          })}
+                        </p>
                       </div>
                     </div>
                   ))}
