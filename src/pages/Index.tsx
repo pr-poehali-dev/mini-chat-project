@@ -340,7 +340,7 @@ const Index = () => {
                       className="text-slate-400 hover:text-white"
                     >
                       <Icon name="ArrowLeft" size={16} className="mr-1" />
-                      Назад
+                      Все чаты
                     </Button>
                   )}
                 </div>
