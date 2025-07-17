@@ -2,7 +2,6 @@ import { useState } from 'react';
 import Header from '@/components/Header';
 import ServerListing from '@/components/ServerListing';
 import Chat from '@/components/Chat';
-import MiniChat from '@/components/chat/MiniChat';
 
 const Index = () => {
   const [chatMessages, setChatMessages] = useState([
@@ -31,6 +30,8 @@ const Index = () => {
   const [showBlockedMessages, setShowBlockedMessages] = useState(new Set());
   const [lastMessageTime, setLastMessageTime] = useState(0);
   const [cooldownRemaining, setCooldownRemaining] = useState(0);
+  const [globalUnreadCount, setGlobalUnreadCount] = useState(2);
+  const [privateUnreadCount, setPrivateUnreadCount] = useState(3);
 
   const servers = [
     {
@@ -155,6 +156,13 @@ const Index = () => {
       
       setNewMessage('');
       setLastMessageTime(now);
+      
+      // Сбрасываем счетчики при отправке сообщения
+      if (messageType === 'global') {
+        setGlobalUnreadCount(0);
+      } else {
+        setPrivateUnreadCount(prev => Math.max(0, prev - 1));
+      }
     }
   };
 
@@ -206,18 +214,21 @@ const Index = () => {
     setShowBlockedMessages(newShowBlockedMessages);
   };
 
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
+    // Сбрасываем счетчики при переключении на вкладку
+    if (tab === 'global') {
+      setGlobalUnreadCount(0);
+    } else {
+      setPrivateUnreadCount(0);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-slate-900 dark:bg-slate-900 bg-gray-50 text-white dark:text-white text-gray-900">
       <Header onToggleChat={toggleChat} />
       
-      {/* Mini Chat под шапкой */}
-      <div className="max-w-7xl mx-auto px-3 md:px-6 py-4">
-        <MiniChat 
-          blockedUsers={blockedUsers}
-          onBlockUser={handleBlockUser}
-          onUnblockUser={handleUnblockUser}
-        />
-      </div>
+
 
       <div className="max-w-7xl mx-auto p-3 md:p-6">
         <div className={`grid gap-3 md:gap-6 ${isChatVisible ? 'grid-cols-1 lg:grid-cols-3' : 'grid-cols-1'}`}>
@@ -228,7 +239,7 @@ const Index = () => {
               onClose={toggleChat}
               chatMessages={chatMessages}
               activeTab={activeTab}
-              setActiveTab={setActiveTab}
+              setActiveTab={handleTabChange}
               activeChatId={activeChatId}
               setActiveChatId={setActiveChatId}
               newMessage={newMessage}
@@ -248,6 +259,8 @@ const Index = () => {
               getBlockedMessageCount={getBlockedMessageCount}
               showBlockedMessages={showBlockedMessages}
               onToggleBlockedMessages={handleToggleBlockedMessages}
+              globalUnreadCount={globalUnreadCount}
+              privateUnreadCount={privateUnreadCount}
             />
           </div>
 

@@ -25,7 +25,9 @@ const Chat = ({
   onUnblockUser,
   getBlockedMessageCount,
   showBlockedMessages,
-  onToggleBlockedMessages
+  onToggleBlockedMessages,
+  globalUnreadCount = 0,
+  privateUnreadCount = 0
 }: ChatProps) => {
   if (!isVisible) return null;
 
@@ -60,6 +62,8 @@ const Chat = ({
       onUnblockUser={onUnblockUser}
       onToggleBlockedMessages={onToggleBlockedMessages}
       onSendMessage={onSendMessage}
+      globalUnreadCount={globalUnreadCount}
+      privateUnreadCount={privateUnreadCount}
     />
   );
 };

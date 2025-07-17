@@ -32,4 +32,6 @@ export interface ChatProps {
   getBlockedMessageCount: (chatId: string) => number;
   showBlockedMessages?: Set<string>;
   onToggleBlockedMessages: (chatId: string) => void;
+  globalUnreadCount?: number;
+  privateUnreadCount?: number;
 }

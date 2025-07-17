@@ -29,6 +29,8 @@ interface ChatContainerProps {
   onUnblockUser: (username: string) => void;
   onToggleBlockedMessages: (chatId: string) => void;
   onSendMessage: () => void;
+  globalUnreadCount?: number;
+  privateUnreadCount?: number;
 }
 
 const ChatContainer = ({
@@ -54,7 +56,9 @@ const ChatContainer = ({
   onBlockUser,
   onUnblockUser,
   onToggleBlockedMessages,
-  onSendMessage
+  onSendMessage,
+  globalUnreadCount = 0,
+  privateUnreadCount = 0
 }: ChatContainerProps) => {
   const containerClass = isFullscreen 
     ? "fixed inset-0 z-50 bg-slate-900 dark:bg-slate-900 bg-gray-50 hidden lg:block"
@@ -85,6 +89,8 @@ const ChatContainer = ({
           isPrivateChatOpen={isPrivateChatOpen}
           activeChatId={activeChatId}
           onChatSelect={onChatSelect}
+          globalUnreadCount={globalUnreadCount}
+          privateUnreadCount={privateUnreadCount}
         />
         
         <CardContent className="flex-1 flex flex-col p-0 min-h-0">

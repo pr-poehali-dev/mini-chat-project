@@ -9,6 +9,8 @@ interface ChatTabsProps {
   isPrivateChatOpen: boolean;
   activeChatId: string;
   onChatSelect: (chatId: string) => void;
+  globalUnreadCount?: number;
+  privateUnreadCount?: number;
 }
 
 const ChatTabs = ({
@@ -18,7 +20,9 @@ const ChatTabs = ({
   privateChats,
   isPrivateChatOpen,
   activeChatId,
-  onChatSelect
+  onChatSelect,
+  globalUnreadCount = 0,
+  privateUnreadCount = 0
 }: ChatTabsProps) => {
   return (
     <div className="px-4 pb-2">
@@ -32,11 +36,21 @@ const ChatTabs = ({
         }
       }}>
         <TabsList className="grid w-full grid-cols-2 bg-slate-700 dark:bg-slate-700 bg-gray-100 h-8">
-          <TabsTrigger value="global" className="data-[state=active]:bg-green-600 dark:data-[state=active]:bg-green-600 data-[state=active]:bg-green-500 text-xs h-6">
+          <TabsTrigger value="global" className="data-[state=active]:bg-green-600 dark:data-[state=active]:bg-green-600 data-[state=active]:bg-green-500 text-xs h-6 relative">
             Глобальный
+            {globalUnreadCount > 0 && (
+              <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full px-1.5 py-0.5 min-w-[18px] h-[18px] flex items-center justify-center">
+                {globalUnreadCount}
+              </span>
+            )}
           </TabsTrigger>
-          <TabsTrigger value="private" className="data-[state=active]:bg-blue-600 dark:data-[state=active]:bg-blue-600 data-[state=active]:bg-blue-500 text-xs h-6">
+          <TabsTrigger value="private" className="data-[state=active]:bg-blue-600 dark:data-[state=active]:bg-blue-600 data-[state=active]:bg-blue-500 text-xs h-6 relative">
             Приватный
+            {privateUnreadCount > 0 && (
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5 min-w-[18px] h-[18px] flex items-center justify-center animate-pulse">
+                {privateUnreadCount}
+              </span>
+            )}
           </TabsTrigger>
         </TabsList>
       </Tabs>
