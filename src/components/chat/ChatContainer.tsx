@@ -62,11 +62,11 @@ const ChatContainer = ({
 }: ChatContainerProps) => {
   const containerClass = isFullscreen 
     ? "fixed inset-0 z-50 bg-slate-900 dark:bg-slate-900 bg-gray-50 hidden lg:block"
-    : "lg:col-span-1";
+    : "lg:col-span-1 lg:sticky lg:top-6 lg:self-start";
   
   const cardClass = isFullscreen
     ? "bg-slate-800 dark:bg-slate-800 bg-white border-slate-700 dark:border-slate-700 border-gray-200 h-full flex flex-col rounded-none"
-    : "bg-slate-800 dark:bg-slate-800 bg-white border-slate-700 dark:border-slate-700 border-gray-200 h-[400px] md:h-[600px] flex flex-col";
+    : "bg-slate-800 dark:bg-slate-800 bg-white border-slate-700 dark:border-slate-700 border-gray-200 h-[400px] md:h-[600px] lg:h-[calc(100vh-120px)] lg:max-h-[800px] flex flex-col";
 
   return (
     <div className={containerClass}>
