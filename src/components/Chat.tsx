@@ -23,7 +23,9 @@ const Chat = ({
   blockedUsers,
   onBlockUser,
   onUnblockUser,
-  getBlockedMessageCount
+  getBlockedMessageCount,
+  showBlockedMessages,
+  onToggleBlockedMessages
 }: ChatProps) => {
   if (!isVisible) return null;
 
@@ -45,6 +47,7 @@ const Chat = ({
       filteredMessages={filteredMessages}
       blockedUsers={blockedUsers}
       blockedCount={blockedCount}
+      showBlockedMessages={showBlockedMessages}
       newMessage={newMessage}
       setNewMessage={setNewMessage}
       cooldownRemaining={cooldownRemaining}
@@ -55,6 +58,7 @@ const Chat = ({
       onUserMention={onUserMention}
       onBlockUser={onBlockUser}
       onUnblockUser={onUnblockUser}
+      onToggleBlockedMessages={onToggleBlockedMessages}
       onSendMessage={onSendMessage}
     />
   );

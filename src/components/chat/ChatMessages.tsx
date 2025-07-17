@@ -8,9 +8,12 @@ interface ChatMessagesProps {
   isPrivateChatOpen: boolean;
   blockedUsers: Set<string>;
   blockedCount: number;
+  activeChatId: string;
+  showBlockedMessages: Set<string>;
   onUserMention: (username: string) => void;
   onBlockUser: (username: string) => void;
   onUnblockUser: (username: string) => void;
+  onToggleBlockedMessages: (chatId: string) => void;
 }
 
 const ChatMessages = ({
@@ -19,9 +22,12 @@ const ChatMessages = ({
   isPrivateChatOpen,
   blockedUsers,
   blockedCount,
+  activeChatId,
+  showBlockedMessages,
   onUserMention,
   onBlockUser,
-  onUnblockUser
+  onUnblockUser,
+  onToggleBlockedMessages
 }: ChatMessagesProps) => {
   return (
     <div className="flex-1 overflow-y-auto px-3 md:px-6 py-2 scroll-smooth min-h-0">
@@ -37,11 +43,9 @@ const ChatMessages = ({
             </div>
             <button 
               className="text-xs text-blue-400 hover:text-blue-300 transition-colors"
-              onClick={() => {
-                // Показать заблокированные сообщения
-              }}
+              onClick={() => onToggleBlockedMessages(activeChatId)}
             >
-              Открыть
+              {showBlockedMessages.has(activeChatId) ? 'Скрыть' : 'Открыть'}
             </button>
           </div>
         </div>
@@ -51,24 +55,46 @@ const ChatMessages = ({
         const isBlocked = blockedUsers.has(msg.user);
         
         if (isBlocked) {
-          return (
-            <div key={msg.id} className="mb-3 p-3 bg-slate-700/30 rounded-lg border border-slate-600">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <Icon name="Shield" size={16} className="text-slate-400" />
-                  <span className="text-sm text-slate-400">
-                    1 заблокированное сообщение
-                  </span>
+          if (showBlockedMessages.has(activeChatId)) {
+            return (
+              <div key={msg.id} className="mb-3 p-3 bg-slate-700/30 rounded-lg border border-slate-600">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center space-x-2">
+                    <Icon name="Shield" size={16} className="text-slate-400" />
+                    <span className="text-sm text-slate-400">
+                      Заблокированное сообщение от {msg.user}
+                    </span>
+                  </div>
+                  <button 
+                    className="text-xs text-red-400 hover:text-red-300 transition-colors"
+                    onClick={() => onUnblockUser(msg.user)}
+                  >
+                    Разблокировать
+                  </button>
                 </div>
-                <button 
-                  className="text-xs text-blue-400 hover:text-blue-300 transition-colors"
-                  onClick={() => onUnblockUser(msg.user)}
-                >
-                  Открыть
-                </button>
+                <div className="flex items-start space-x-3">
+                  <Avatar className="w-6 h-6 md:w-8 md:h-8 mt-1 flex-shrink-0">
+                    <AvatarFallback className="text-xs bg-slate-700">
+                      {msg.user.slice(0, 2)}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="flex-1 min-w-0 max-w-full">
+                    <div className="flex items-center space-x-2 mb-1">
+                      <span className="font-semibold text-sm text-slate-500">
+                        {msg.user}
+                      </span>
+                      <span className="text-xs text-slate-400">{msg.time}</span>
+                    </div>
+                    <p className="text-sm text-slate-400 break-words word-wrap break-all whitespace-pre-wrap overflow-hidden max-w-full hyphens-auto">
+                      {msg.message}
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
-          );
+            );
+          } else {
+            return null;
+          }
         }
         
         return (

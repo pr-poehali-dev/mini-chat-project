@@ -16,6 +16,7 @@ interface ChatContainerProps {
   filteredMessages: ChatMessage[];
   blockedUsers: Set<string>;
   blockedCount: number;
+  showBlockedMessages: Set<string>;
   newMessage: string;
   setNewMessage: (message: string) => void;
   cooldownRemaining: number;
@@ -26,6 +27,7 @@ interface ChatContainerProps {
   onUserMention: (username: string) => void;
   onBlockUser: (username: string) => void;
   onUnblockUser: (username: string) => void;
+  onToggleBlockedMessages: (chatId: string) => void;
   onSendMessage: () => void;
 }
 
@@ -40,6 +42,7 @@ const ChatContainer = ({
   filteredMessages,
   blockedUsers,
   blockedCount,
+  showBlockedMessages,
   newMessage,
   setNewMessage,
   cooldownRemaining,
@@ -50,6 +53,7 @@ const ChatContainer = ({
   onUserMention,
   onBlockUser,
   onUnblockUser,
+  onToggleBlockedMessages,
   onSendMessage
 }: ChatContainerProps) => {
   const containerClass = isFullscreen 
@@ -90,9 +94,12 @@ const ChatContainer = ({
             isPrivateChatOpen={isPrivateChatOpen}
             blockedUsers={blockedUsers}
             blockedCount={blockedCount}
+            activeChatId={activeChatId}
+            showBlockedMessages={showBlockedMessages}
             onUserMention={onUserMention}
             onBlockUser={onBlockUser}
             onUnblockUser={onUnblockUser}
+            onToggleBlockedMessages={onToggleBlockedMessages}
           />
           
           <ChatInput
