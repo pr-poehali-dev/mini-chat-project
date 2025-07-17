@@ -212,7 +212,11 @@ const Index = () => {
       
       {/* Mini Chat под шапкой */}
       <div className="max-w-7xl mx-auto px-3 md:px-6 py-4">
-        <MiniChat />
+        <MiniChat 
+          blockedUsers={blockedUsers}
+          onBlockUser={handleBlockUser}
+          onUnblockUser={handleUnblockUser}
+        />
       </div>
 
       <div className="max-w-7xl mx-auto p-3 md:p-6">
