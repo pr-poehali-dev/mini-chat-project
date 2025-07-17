@@ -7,13 +7,18 @@ const Index = () => {
   const [chatMessages, setChatMessages] = useState([
     { id: 1, user: 'Админ', message: 'Добро пожаловать на доску объявлений Discord!', type: 'global', time: '16:12', chatId: 'global' },
     { id: 2, user: 'MikeGamer', message: 'Продаю приват рекламу для MIKU TAG', type: 'global', time: '16:15', chatId: 'global' },
-    { id: 3, user: 'YuriMaster', message: 'Ищу партнеров для развития сервера', type: 'global', time: '16:18', chatId: 'global' }
+    { id: 3, user: 'YuriMaster', message: 'Ищу партнеров для развития сервера', type: 'global', time: '16:18', chatId: 'global' },
+    { id: 4, user: 'MikeGamer', message: 'Привет! Интересуешься рекламой?', type: 'private', time: '16:20', chatId: 'private-MikeGamer' },
+    { id: 5, user: 'YuriMaster', message: 'Здравствуй! Есть предложение по сотрудничеству', type: 'private', time: '16:22', chatId: 'private-YuriMaster' }
   ]);
   
   const [activeTab, setActiveTab] = useState('global');
   const [activeChatId, setActiveChatId] = useState('global');
   const [newMessage, setNewMessage] = useState('');
-  const [privateChats, setPrivateChats] = useState(new Map());
+  const [privateChats, setPrivateChats] = useState(new Map([
+    ['MikeGamer', { name: 'MikeGamer', lastMessage: 'Привет! Интересуешься рекламой?', lastMessageFrom: 'MikeGamer', unread: false }],
+    ['YuriMaster', { name: 'YuriMaster', lastMessage: 'Здравствуй! Есть предложение по сотрудничеству', lastMessageFrom: 'YuriMaster', unread: false }]
+  ]));
   const [isPrivateChatOpen, setIsPrivateChatOpen] = useState(false);
   const [isChatVisible, setIsChatVisible] = useState(true);
   const [isChatFullscreen, setIsChatFullscreen] = useState(false);
@@ -108,6 +113,7 @@ const Index = () => {
             setPrivateChats(new Map(privateChats.set(mentionedUser, {
               name: mentionedUser,
               lastMessage: null,
+              lastMessageFrom: null,
               unread: false
             })));
           }
@@ -128,6 +134,18 @@ const Index = () => {
       };
       
       setChatMessages([...chatMessages, message]);
+      
+      // Обновляем последнее сообщение для приватного чата
+      if (messageType === 'private') {
+        const chatUser = targetChatId.replace('private-', '');
+        setPrivateChats(new Map(privateChats.set(chatUser, {
+          name: chatUser,
+          lastMessage: message.message,
+          lastMessageFrom: message.user,
+          unread: false
+        })));
+      }
+      
       setNewMessage('');
       setLastMessageTime(now);
     }

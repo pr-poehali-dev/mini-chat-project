@@ -146,7 +146,14 @@ const Chat = ({
                           {username.slice(0, 2)}
                         </AvatarFallback>
                       </Avatar>
-                      <span>{username}</span>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-medium text-sm">{username}</div>
+                        {chatInfo.lastMessage && (
+                          <div className="text-xs text-slate-400 truncate">
+                            {chatInfo.lastMessageFrom === 'Вы' ? 'Вы: ' : ''}{chatInfo.lastMessage}
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </button>
                 ))}
@@ -316,7 +323,14 @@ const Chat = ({
                         {username.slice(0, 2)}
                       </AvatarFallback>
                     </Avatar>
-                    <span>{username}</span>
+                    <div className="flex-1 min-w-0">
+                      <div className="font-medium text-sm">{username}</div>
+                      {chatInfo.lastMessage && (
+                        <div className="text-xs text-slate-400 truncate">
+                          {chatInfo.lastMessageFrom === 'Вы' ? 'Вы: ' : ''}{chatInfo.lastMessage}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </button>
               ))}
