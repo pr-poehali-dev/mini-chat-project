@@ -7,9 +7,13 @@ const Index = () => {
   const [chatMessages, setChatMessages] = useState([
     { id: 1, user: 'Админ', message: 'Добро пожаловать на доску объявлений Discord!', type: 'global', time: '16:12', chatId: 'global' },
     { id: 2, user: 'MikeGamer', message: 'Продаю приват рекламу для MIKU TAG', type: 'global', time: '16:15', chatId: 'global' },
-    { id: 3, user: 'YuriMaster', message: 'Ищу партнеров для развития сервера', type: 'global', time: '16:18', chatId: 'global' },
-    { id: 4, user: 'MikeGamer', message: 'Привет! Интересуешься рекламой?', type: 'private', time: '16:20', chatId: 'private-MikeGamer' },
-    { id: 5, user: 'YuriMaster', message: 'Здравствуй! Есть предложение по сотрудничеству', type: 'private', time: '16:22', chatId: 'private-YuriMaster' }
+    { id: 3, user: 'TestUser', message: 'Первое сообщение от заблокированного пользователя', type: 'global', time: '16:16', chatId: 'global' },
+    { id: 4, user: 'TestUser', message: 'Второе сообщение подряд', type: 'global', time: '16:17', chatId: 'global' },
+    { id: 5, user: 'TestUser', message: 'Третье сообщение в группе', type: 'global', time: '16:18', chatId: 'global' },
+    { id: 6, user: 'YuriMaster', message: 'Ищу партнеров для развития сервера', type: 'global', time: '16:19', chatId: 'global' },
+    { id: 7, user: 'TestUser', message: 'Еще одно сообщение после перерыва', type: 'global', time: '16:20', chatId: 'global' },
+    { id: 8, user: 'MikeGamer', message: 'Привет! Интересуешься рекламой?', type: 'private', time: '16:21', chatId: 'private-MikeGamer' },
+    { id: 9, user: 'YuriMaster', message: 'Здравствуй! Есть предложение по сотрудничеству', type: 'private', time: '16:22', chatId: 'private-YuriMaster' }
   ]);
   
   const [activeTab, setActiveTab] = useState('global');
