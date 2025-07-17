@@ -16,6 +16,7 @@ const Index = () => {
   const [privateChats, setPrivateChats] = useState(new Map());
   const [isPrivateChatOpen, setIsPrivateChatOpen] = useState(false);
   const [isChatVisible, setIsChatVisible] = useState(true);
+  const [isChatFullscreen, setIsChatFullscreen] = useState(false);
   const [lastMessageTime, setLastMessageTime] = useState(0);
   const [cooldownRemaining, setCooldownRemaining] = useState(0);
 
@@ -143,6 +144,13 @@ const Index = () => {
 
   const toggleChat = () => {
     setIsChatVisible(!isChatVisible);
+    if (!isChatVisible) {
+      setIsChatFullscreen(false);
+    }
+  };
+
+  const toggleChatFullscreen = () => {
+    setIsChatFullscreen(!isChatFullscreen);
   };
 
   return (
@@ -170,6 +178,8 @@ const Index = () => {
               onChatSelect={handleChatSelect}
               onBackToChats={handleBackToChats}
               cooldownRemaining={cooldownRemaining}
+              isFullscreen={isChatFullscreen}
+              onToggleFullscreen={toggleChatFullscreen}
             />
           </div>
 
