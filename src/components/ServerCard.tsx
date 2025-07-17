@@ -25,7 +25,7 @@ interface ServerCardProps {
 
 const ServerCard = ({ server }: ServerCardProps) => {
   return (
-    <Card className="bg-slate-800 border-slate-700 hover:bg-slate-750 transition-colors">
+    <Card className="bg-slate-800 dark:bg-slate-800 bg-white border-slate-700 dark:border-slate-700 border-gray-200 hover:bg-slate-750 dark:hover:bg-slate-750 hover:bg-gray-50 transition-colors">
       <CardContent className="p-3 md:p-6">
         <div className="flex items-start space-x-3 md:space-x-4">
           <Avatar className="w-12 h-12 md:w-16 md:h-16 flex-shrink-0">

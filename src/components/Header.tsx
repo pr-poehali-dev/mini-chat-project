@@ -1,14 +1,17 @@
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import Icon from '@/components/ui/icon';
+import { useTheme } from '@/contexts/ThemeContext';
 
 interface HeaderProps {
   onToggleChat: () => void;
 }
 
 const Header = ({ onToggleChat }: HeaderProps) => {
+  const { theme, toggleTheme } = useTheme();
+  
   return (
-    <header className="bg-slate-800 border-b border-slate-700 p-4">
+    <header className="bg-slate-800 dark:bg-slate-800 bg-white border-b border-slate-700 dark:border-slate-700 border-gray-200 p-4">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <div className="flex items-center space-x-2 md:space-x-3">
           <div className="w-6 h-6 md:w-8 md:h-8 bg-blue-600 rounded-lg flex items-center justify-center">
@@ -19,7 +22,7 @@ const Header = ({ onToggleChat }: HeaderProps) => {
         </div>
         <div className="flex items-center space-x-2 md:space-x-4">
           <Select defaultValue="en">
-            <SelectTrigger className="w-12 md:w-16 bg-slate-700 border-slate-600">
+            <SelectTrigger className="w-12 md:w-16 bg-slate-700 dark:bg-slate-700 bg-gray-100 border-slate-600 dark:border-slate-600 border-gray-300">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -27,8 +30,14 @@ const Header = ({ onToggleChat }: HeaderProps) => {
               <SelectItem value="ru">RU</SelectItem>
             </SelectContent>
           </Select>
-          <Button variant="outline" size="sm" className="border-slate-600 hidden md:flex">
-            <Icon name="Moon" size={16} className="mr-2" />
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={toggleTheme}
+            className="border-slate-600 dark:border-slate-600 border-gray-300 hover:bg-slate-700 dark:hover:bg-slate-700 hover:bg-gray-100 hidden md:flex"
+          >
+            <Icon name={theme === 'light' ? 'Moon' : 'Sun'} size={16} className="mr-2" />
+            {theme === 'light' ? 'Dark' : 'Light'}
           </Button>
           <Button className="bg-blue-600 hover:bg-blue-700 hidden md:flex">
             <Icon name="Plus" size={16} className="mr-2" />
@@ -41,7 +50,7 @@ const Header = ({ onToggleChat }: HeaderProps) => {
             variant="outline" 
             size="sm" 
             onClick={onToggleChat}
-            className="border-slate-600 hover:bg-slate-700"
+            className="border-slate-600 dark:border-slate-600 border-gray-300 hover:bg-slate-700 dark:hover:bg-slate-700 hover:bg-gray-100"
           >
             <Icon name="MessageCircle" size={16} className="mr-0 md:mr-2" />
             <span className="hidden md:inline">Чат</span>

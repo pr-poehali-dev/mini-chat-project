@@ -16,7 +16,7 @@ const ChatInput = ({
   cooldownRemaining
 }: ChatInputProps) => {
   return (
-    <div className="p-2 md:p-4 border-t border-slate-700">
+    <div className="p-2 md:p-4 border-t border-slate-700 dark:border-slate-700 border-gray-200">
       <div className="flex space-x-1 md:space-x-2">
         <div className="flex-1 relative">
           <Input
@@ -28,10 +28,10 @@ const ChatInput = ({
               }
             }}
             onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && onSendMessage()}
-            className="bg-slate-700 border-slate-600 focus:border-blue-500 pr-12"
+            className="bg-slate-700 dark:bg-slate-700 bg-gray-100 border-slate-600 dark:border-slate-600 border-gray-300 focus:border-blue-500 pr-12"
             disabled={cooldownRemaining > 0}
           />
-          <div className="absolute right-2 top-1/2 transform -translate-y-1/2 text-xs text-slate-400">
+          <div className="absolute right-2 top-1/2 transform -translate-y-1/2 text-xs text-slate-400 dark:text-slate-400 text-gray-500">
             {newMessage.length}/500
           </div>
         </div>

@@ -33,7 +33,7 @@ const ChatMessages = ({
     <div className="flex-1 overflow-y-auto px-3 md:px-6 py-2 scroll-smooth min-h-0">
       {/* Заблокированные сообщения */}
       {blockedCount > 0 && (
-        <div className="mb-3 p-3 bg-slate-700/50 rounded-lg border border-slate-600">
+        <div className="mb-3 p-3 bg-slate-700/50 dark:bg-slate-700/50 bg-gray-100 rounded-lg border border-slate-600 dark:border-slate-600 border-gray-200">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <Icon name="Shield" size={16} className="text-slate-400" />
@@ -42,7 +42,7 @@ const ChatMessages = ({
               </span>
             </div>
             <button 
-              className="text-xs text-blue-400 hover:text-blue-300 transition-colors"
+              className="text-xs text-blue-400 dark:text-blue-400 text-blue-600 hover:text-blue-300 dark:hover:text-blue-300 hover:text-blue-500 transition-colors"
               onClick={() => onToggleBlockedMessages(activeChatId)}
             >
               {showBlockedMessages?.has(activeChatId) ? 'Скрыть' : 'Открыть'}

@@ -27,7 +27,7 @@ const ServerListing = ({ servers }: ServerListingProps) => {
   return (
     <div className="mb-6">
       <Tabs defaultValue="listings" className="w-full">
-        <TabsList className="grid w-full grid-cols-3 bg-slate-800">
+        <TabsList className="grid w-full grid-cols-3 bg-slate-800 dark:bg-slate-800 bg-gray-100">
           <TabsTrigger value="listings">Listings</TabsTrigger>
           <TabsTrigger value="my-listings">My Listings</TabsTrigger>
           <TabsTrigger value="favorites">Favorites</TabsTrigger>
@@ -37,7 +37,7 @@ const ServerListing = ({ servers }: ServerListingProps) => {
           {/* Filters */}
           <div className="flex flex-wrap gap-2 md:gap-4 mb-4 md:mb-6">
             <Select defaultValue="newest">
-              <SelectTrigger className="w-full sm:w-48 bg-slate-800 border-slate-600">
+              <SelectTrigger className="w-full sm:w-48 bg-slate-800 dark:bg-slate-800 bg-gray-100 border-slate-600 dark:border-slate-600 border-gray-300">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -48,7 +48,7 @@ const ServerListing = ({ servers }: ServerListingProps) => {
             </Select>
             
             <Select defaultValue="all">
-              <SelectTrigger className="w-full sm:w-48 bg-slate-800 border-slate-600">
+              <SelectTrigger className="w-full sm:w-48 bg-slate-800 dark:bg-slate-800 bg-gray-100 border-slate-600 dark:border-slate-600 border-gray-300">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>

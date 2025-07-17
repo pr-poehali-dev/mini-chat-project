@@ -98,4 +98,38 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Дополнительные CSS переменные для чата */
+  :root {
+    --chat-background: 240 10% 3.9%;
+    --chat-card: 240 10% 3.9%;
+    --chat-card-foreground: 0 0% 98%;
+    --chat-border: 240 3.7% 15.9%;
+    --chat-input: 240 3.7% 15.9%;
+    --chat-muted: 240 5% 64.9%;
+    --chat-blocked: 240 3.7% 15.9%;
+    --chat-blocked-foreground: 240 5% 64.9%;
+  }
+
+  .dark {
+    --chat-background: 240 10% 3.9%;
+    --chat-card: 240 10% 3.9%;
+    --chat-card-foreground: 0 0% 98%;
+    --chat-border: 240 3.7% 15.9%;
+    --chat-input: 240 3.7% 15.9%;
+    --chat-muted: 240 5% 64.9%;
+    --chat-blocked: 240 3.7% 15.9%;
+    --chat-blocked-foreground: 240 5% 64.9%;
+  }
+
+  .light {
+    --chat-background: 0 0% 100%;
+    --chat-card: 0 0% 100%;
+    --chat-card-foreground: 222.2 84% 4.9%;
+    --chat-border: 214.3 31.8% 91.4%;
+    --chat-input: 214.3 31.8% 91.4%;
+    --chat-muted: 215.4 16.3% 46.9%;
+    --chat-blocked: 210 40% 96.1%;
+    --chat-blocked-foreground: 215.4 16.3% 46.9%;
+  }
 }
