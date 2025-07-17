@@ -159,15 +159,16 @@ const Index = () => {
       {/* Header */}
       <header className="bg-slate-800 border-b border-slate-700 p-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-              <Icon name="MessageSquare" size={20} className="text-white" />
+          <div className="flex items-center space-x-2 md:space-x-3">
+            <div className="w-6 h-6 md:w-8 md:h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+              <Icon name="MessageSquare" size={16} className="text-white md:hidden" />
+              <Icon name="MessageSquare" size={20} className="text-white hidden md:block" />
             </div>
-            <h1 className="text-xl font-bold">Discord Ads Board</h1>
+            <h1 className="text-lg md:text-xl font-bold">Discord Ads Board</h1>
           </div>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 md:space-x-4">
             <Select defaultValue="en">
-              <SelectTrigger className="w-16 bg-slate-700 border-slate-600">
+              <SelectTrigger className="w-12 md:w-16 bg-slate-700 border-slate-600">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -175,12 +176,15 @@ const Index = () => {
                 <SelectItem value="ru">RU</SelectItem>
               </SelectContent>
             </Select>
-            <Button variant="outline" size="sm" className="border-slate-600">
+            <Button variant="outline" size="sm" className="border-slate-600 hidden md:flex">
               <Icon name="Moon" size={16} className="mr-2" />
             </Button>
-            <Button className="bg-blue-600 hover:bg-blue-700">
+            <Button className="bg-blue-600 hover:bg-blue-700 hidden md:flex">
               <Icon name="Plus" size={16} className="mr-2" />
               Add Listing
+            </Button>
+            <Button className="bg-blue-600 hover:bg-blue-700 md:hidden">
+              <Icon name="Plus" size={16} />
             </Button>
             <Button 
               variant="outline" 
@@ -188,19 +192,22 @@ const Index = () => {
               onClick={toggleChat}
               className="border-slate-600 hover:bg-slate-700"
             >
-              <Icon name="MessageCircle" size={16} className="mr-2" />
-              Чат
+              <Icon name="MessageCircle" size={16} className="mr-0 md:mr-2" />
+              <span className="hidden md:inline">Чат</span>
             </Button>
-            <Button variant="destructive">
+            <Button variant="destructive" className="hidden md:flex">
               <Icon name="LogOut" size={16} className="mr-2" />
               Logout
+            </Button>
+            <Button variant="destructive" size="sm" className="md:hidden">
+              <Icon name="LogOut" size={16} />
             </Button>
           </div>
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto p-6">
-        <div className={`grid gap-6 ${isChatVisible ? 'grid-cols-1 lg:grid-cols-3' : 'grid-cols-1'}`}>
+      <div className="max-w-7xl mx-auto p-3 md:p-6">
+        <div className={`grid gap-3 md:gap-6 ${isChatVisible ? 'grid-cols-1 lg:grid-cols-3' : 'grid-cols-1'}`}>
           {/* Main Content */}
           <div className={isChatVisible ? 'lg:col-span-2' : 'col-span-1'}>
             {/* Navigation Tabs */}
@@ -214,9 +221,9 @@ const Index = () => {
                 
                 <TabsContent value="listings" className="mt-6">
                   {/* Filters */}
-                  <div className="flex flex-wrap gap-4 mb-6">
+                  <div className="flex flex-wrap gap-2 md:gap-4 mb-4 md:mb-6">
                     <Select defaultValue="newest">
-                      <SelectTrigger className="w-48 bg-slate-800 border-slate-600">
+                      <SelectTrigger className="w-full sm:w-48 bg-slate-800 border-slate-600">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -227,7 +234,7 @@ const Index = () => {
                     </Select>
                     
                     <Select defaultValue="all">
-                      <SelectTrigger className="w-48 bg-slate-800 border-slate-600">
+                      <SelectTrigger className="w-full sm:w-48 bg-slate-800 border-slate-600">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -239,7 +246,7 @@ const Index = () => {
                     </Select>
                     
                     <Select defaultValue="usd">
-                      <SelectTrigger className="w-24 bg-slate-800 border-slate-600">
+                      <SelectTrigger className="w-20 sm:w-24 bg-slate-800 border-slate-600">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -249,10 +256,10 @@ const Index = () => {
                       </SelectContent>
                     </Select>
                     
-                    <Button variant="outline" className="border-slate-600">
+                    <Button variant="outline" className="border-slate-600 hidden sm:flex">
                       <Icon name="Grid" size={16} />
                     </Button>
-                    <Button variant="outline" className="border-slate-600">
+                    <Button variant="outline" className="border-slate-600 hidden sm:flex">
                       Reset
                     </Button>
                   </div>
@@ -261,9 +268,9 @@ const Index = () => {
                   <div className="space-y-4">
                     {servers.map((server) => (
                       <Card key={server.id} className="bg-slate-800 border-slate-700 hover:bg-slate-750 transition-colors">
-                        <CardContent className="p-6">
-                          <div className="flex items-start space-x-4">
-                            <Avatar className="w-16 h-16">
+                        <CardContent className="p-3 md:p-6">
+                          <div className="flex items-start space-x-3 md:space-x-4">
+                            <Avatar className="w-12 h-12 md:w-16 md:h-16 flex-shrink-0">
                               <AvatarImage src={server.avatar} alt={server.name} />
                               <AvatarFallback>{server.name.slice(0, 2)}</AvatarFallback>
                             </Avatar>
@@ -296,21 +303,27 @@ const Index = () => {
                               
                               <p className="text-slate-300 mb-4">{server.description}</p>
                               
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center space-x-3">
+                              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                                <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                                   <Badge variant="outline" className="border-slate-600 text-slate-300">
                                     {server.category}
                                   </Badge>
-                                  <Button variant="outline" size="sm" className="border-slate-600">
+                                  <Button variant="outline" size="sm" className="border-slate-600 hidden sm:flex">
                                     <Icon name="ExternalLink" size={14} className="mr-1" />
                                     Visit Server
                                   </Button>
-                                  <Button variant="outline" size="sm" className="border-slate-600">
+                                  <Button variant="outline" size="sm" className="border-slate-600 sm:hidden">
+                                    <Icon name="ExternalLink" size={14} />
+                                  </Button>
+                                  <Button variant="outline" size="sm" className="border-slate-600 hidden sm:flex">
                                     Contact
+                                  </Button>
+                                  <Button variant="outline" size="sm" className="border-slate-600 sm:hidden">
+                                    <Icon name="MessageCircle" size={14} />
                                   </Button>
                                 </div>
                                 
-                                <div className="flex items-center space-x-2">
+                                <div className="flex items-center space-x-1 sm:space-x-2">
                                   <Button variant="ghost" size="sm">
                                     <Icon name="Heart" size={16} />
                                   </Button>
@@ -324,11 +337,11 @@ const Index = () => {
                               </div>
                             </div>
                             
-                            <div className="text-right">
-                              <div className="text-2xl font-bold text-green-400">
+                            <div className="text-right flex-shrink-0">
+                              <div className="text-lg md:text-2xl font-bold text-green-400">
                                 {server.price} {server.currency}
                               </div>
-                              <p className="text-sm text-slate-400">Socializing</p>
+                              <p className="text-xs md:text-sm text-slate-400">Socializing</p>
                             </div>
                           </div>
                         </CardContent>
@@ -362,7 +375,7 @@ const Index = () => {
           {/* Chat Sidebar */}
           {isChatVisible && (
             <div className="lg:col-span-1">
-              <Card className="bg-slate-800 border-slate-700 h-[600px] flex flex-col">
+              <Card className="bg-slate-800 border-slate-700 h-[400px] md:h-[600px] flex flex-col">
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-lg">
@@ -449,10 +462,10 @@ const Index = () => {
               </div>
               
               <CardContent className="flex-1 flex flex-col p-0">
-                <div className="flex-1 overflow-y-auto px-6 space-y-3 max-w-full">
+                <div className="flex-1 overflow-y-auto px-3 md:px-6 space-y-2 md:space-y-3 max-w-full">
                   {(activeTab === 'global' || (activeTab === 'private' && isPrivateChatOpen)) && filteredMessages.map((msg) => (
                     <div key={msg.id} className="flex items-start space-x-3 max-w-full">
-                      <Avatar className="w-8 h-8 mt-1">
+                      <Avatar className="w-6 h-6 md:w-8 md:h-8 mt-1 flex-shrink-0">
                         <AvatarFallback className="text-xs bg-slate-700">
                           {msg.user.slice(0, 2)}
                         </AvatarFallback>
@@ -484,8 +497,8 @@ const Index = () => {
                   ))}
                 </div>
                 
-                <div className="p-4 border-t border-slate-700">
-                  <div className="flex space-x-2">
+                <div className="p-2 md:p-4 border-t border-slate-700">
+                  <div className="flex space-x-1 md:space-x-2">
                     <div className="flex-1 relative">
                       <Input
                         placeholder="Сообщение... (@ для упоминаний)"
