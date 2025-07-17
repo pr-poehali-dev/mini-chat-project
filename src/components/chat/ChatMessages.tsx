@@ -183,7 +183,7 @@ const ChatMessages = ({
                       {msg.user}
                     </span>
                     <span className="text-xs text-slate-400">{msg.time}</span>
-                    {activeTab === 'private' && msg.user !== 'Вы' && (
+                    {msg.user !== 'Вы' && (
                       <button
                         onClick={() => onBlockUser(msg.user)}
                         className="text-xs text-red-400 hover:text-red-300 transition-colors ml-2"
