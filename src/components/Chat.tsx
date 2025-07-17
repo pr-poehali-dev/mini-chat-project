@@ -144,7 +144,7 @@ const Chat = ({
         </div>
         
         <CardContent className="flex-1 flex flex-col p-0">
-          <div className="flex-1 overflow-y-auto px-3 md:px-6 space-y-2 md:space-y-3 max-w-full">
+          <div className="flex-1 overflow-y-auto px-3 md:px-6 space-y-2 md:space-y-3 max-w-full scroll-smooth">
             {(activeTab === 'global' || (activeTab === 'private' && isPrivateChatOpen)) && filteredMessages.map((msg) => (
               <div key={msg.id} className="flex items-start space-x-3 max-w-full">
                 <Avatar className="w-6 h-6 md:w-8 md:h-8 mt-1 flex-shrink-0">
