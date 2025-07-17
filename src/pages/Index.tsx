@@ -23,6 +23,7 @@ const Index = () => {
   const [isChatVisible, setIsChatVisible] = useState(true);
   const [isChatFullscreen, setIsChatFullscreen] = useState(false);
   const [blockedUsers, setBlockedUsers] = useState(new Set(['TestUser']));
+  const [showBlockedMessages, setShowBlockedMessages] = useState(new Set());
   const [lastMessageTime, setLastMessageTime] = useState(0);
   const [cooldownRemaining, setCooldownRemaining] = useState(0);
 
@@ -190,6 +191,16 @@ const Index = () => {
     return chatMessages.filter(msg => msg.chatId === chatId && blockedUsers.has(msg.user)).length;
   };
 
+  const handleToggleBlockedMessages = (chatId: string) => {
+    const newShowBlockedMessages = new Set(showBlockedMessages);
+    if (newShowBlockedMessages.has(chatId)) {
+      newShowBlockedMessages.delete(chatId);
+    } else {
+      newShowBlockedMessages.add(chatId);
+    }
+    setShowBlockedMessages(newShowBlockedMessages);
+  };
+
   return (
     <div className="min-h-screen bg-slate-900 text-white">
       <Header onToggleChat={toggleChat} />
@@ -221,6 +232,8 @@ const Index = () => {
               onBlockUser={handleBlockUser}
               onUnblockUser={handleUnblockUser}
               getBlockedMessageCount={getBlockedMessageCount}
+              showBlockedMessages={showBlockedMessages}
+              onToggleBlockedMessages={handleToggleBlockedMessages}
             />
           </div>
 
