@@ -50,15 +50,10 @@ const Header = ({ onToggleChat }: HeaderProps) => {
             variant="outline" 
             size="sm" 
             onClick={onToggleChat}
-            className="border-slate-600 dark:border-slate-600 border-gray-300 hover:bg-slate-700 dark:hover:bg-slate-700 hover:bg-gray-100 relative"
+            className="border-slate-600 dark:border-slate-600 border-gray-300 hover:bg-slate-700 dark:hover:bg-slate-700 hover:bg-gray-100"
           >
             <Icon name="MessageCircle" size={16} className="mr-0 md:mr-2" />
             <span className="hidden md:inline">Чат</span>
-            {/* Индикатор онлайн */}
-            <div className="absolute -top-1 -right-1 flex items-center space-x-1 bg-slate-700 dark:bg-slate-700 bg-gray-200 px-1.5 py-0.5 rounded-full">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <span className="text-xs text-green-400 font-medium">2</span>
-            </div>
           </Button>
           <Button variant="destructive" className="hidden md:flex">
             <Icon name="LogOut" size={16} className="mr-2" />

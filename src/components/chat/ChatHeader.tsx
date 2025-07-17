@@ -24,11 +24,20 @@ const ChatHeader = ({
   return (
     <CardHeader className="pb-2 pt-3">
       <div className="flex items-center justify-between">
-        <CardTitle className="text-base font-medium">
-          {isPrivateChatOpen && activeTab === 'private' && activeChatId !== 'global' 
-            ? `Чат с ${activeChatId.replace('private-', '')}`
-            : isFullscreen ? 'Чат (Полноэкранный режим)' : 'Чат'
-          }
+        <CardTitle className="text-base font-medium flex items-center space-x-2">
+          <span>
+            {isPrivateChatOpen && activeTab === 'private' && activeChatId !== 'global' 
+              ? `Чат с ${activeChatId.replace('private-', '')}`
+              : isFullscreen ? 'Чат (Полноэкранный режим)' : 'Чат'
+            }
+          </span>
+          {/* Индикатор онлайн - показываем только в основном чате */}
+          {!isPrivateChatOpen && (
+            <div className="flex items-center space-x-1 bg-slate-700 dark:bg-slate-700 bg-gray-200 px-2 py-1 rounded-full">
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+              <span className="text-xs text-green-400 font-medium">2</span>
+            </div>
+          )}
         </CardTitle>
         <div className="flex items-center space-x-1">
           {isPrivateChatOpen && activeTab === 'private' && (
