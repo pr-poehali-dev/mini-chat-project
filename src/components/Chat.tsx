@@ -66,23 +66,23 @@ const Chat = ({
     return (
       <div className="fixed inset-0 z-50 bg-slate-900 hidden lg:block">
         <Card className="bg-slate-800 border-slate-700 h-full flex flex-col rounded-none">
-          <CardHeader className="pb-3">
+          <CardHeader className="pb-2 pt-3">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-lg">
+              <CardTitle className="text-base font-medium">
                 {isPrivateChatOpen && activeTab === 'private' && activeChatId !== 'global' 
                   ? `Чат с ${activeChatId.replace('private-', '')}`
                   : 'Чат (Полноэкранный режим)'
                 }
               </CardTitle>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-1">
                 {isPrivateChatOpen && activeTab === 'private' && (
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={onBackToChats}
-                    className="text-slate-400 hover:text-white"
+                    className="text-slate-400 hover:text-white h-7 px-2"
                   >
-                    <Icon name="ArrowLeft" size={16} className="mr-1" />
+                    <Icon name="ArrowLeft" size={14} className="mr-1" />
                     Все чаты
                   </Button>
                 )}
@@ -91,24 +91,24 @@ const Chat = ({
                     variant="ghost"
                     size="sm"
                     onClick={onToggleFullscreen}
-                    className="text-slate-400 hover:text-white"
+                    className="text-slate-400 hover:text-white h-7 w-7 p-0"
                   >
-                    <Icon name="Minimize2" size={16} />
+                    <Icon name="Minimize2" size={14} />
                   </Button>
                 )}
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={onClose}
-                  className="text-slate-400 hover:text-white"
+                  className="text-slate-400 hover:text-white h-7 w-7 p-0"
                 >
-                  <Icon name="X" size={16} />
+                  <Icon name="X" size={14} />
                 </Button>
               </div>
             </div>
           </CardHeader>
           
-          <div className="px-6 pb-3">
+          <div className="px-4 pb-2">
             <Tabs value={activeTab} onValueChange={(value) => {
               setActiveTab(value);
               if (value === 'global') {
@@ -118,11 +118,11 @@ const Chat = ({
                 setActiveChatId(`private-${firstPrivateChat}`);
               }
             }}>
-              <TabsList className="grid w-full grid-cols-2 bg-slate-700">
-                <TabsTrigger value="global" className="data-[state=active]:bg-green-600">
+              <TabsList className="grid w-full grid-cols-2 bg-slate-700 h-8">
+                <TabsTrigger value="global" className="data-[state=active]:bg-green-600 text-xs h-6">
                   Глобальный
                 </TabsTrigger>
-                <TabsTrigger value="private" className="data-[state=active]:bg-blue-600">
+                <TabsTrigger value="private" className="data-[state=active]:bg-blue-600 text-xs h-6">
                   Приватный
                 </TabsTrigger>
               </TabsList>
@@ -236,23 +236,23 @@ const Chat = ({
   return (
     <div className="lg:col-span-1">
       <Card className="bg-slate-800 border-slate-700 h-[400px] md:h-[600px] flex flex-col">
-        <CardHeader className="pb-3">
+        <CardHeader className="pb-2 pt-3">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-lg">
+            <CardTitle className="text-base font-medium">
               {isPrivateChatOpen && activeTab === 'private' && activeChatId !== 'global' 
                 ? `Чат с ${activeChatId.replace('private-', '')}`
                 : 'Чат'
               }
             </CardTitle>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-1">
               {isPrivateChatOpen && activeTab === 'private' && (
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={onBackToChats}
-                  className="text-slate-400 hover:text-white"
+                  className="text-slate-400 hover:text-white h-7 px-2"
                 >
-                  <Icon name="ArrowLeft" size={16} className="mr-1" />
+                  <Icon name="ArrowLeft" size={14} className="mr-1" />
                   Все чаты
                 </Button>
               )}
@@ -261,24 +261,24 @@ const Chat = ({
                   variant="ghost"
                   size="sm"
                   onClick={onToggleFullscreen}
-                  className="text-slate-400 hover:text-white hidden lg:flex"
+                  className="text-slate-400 hover:text-white hidden lg:flex h-7 w-7 p-0"
                 >
-                  <Icon name="Maximize2" size={16} />
+                  <Icon name="Maximize2" size={14} />
                 </Button>
               )}
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={onClose}
-                className="text-slate-400 hover:text-white"
+                className="text-slate-400 hover:text-white h-7 w-7 p-0"
               >
-                <Icon name="X" size={16} />
+                <Icon name="X" size={14} />
               </Button>
             </div>
           </div>
         </CardHeader>
         
-        <div className="px-6 pb-3">
+        <div className="px-4 pb-2">
           <Tabs value={activeTab} onValueChange={(value) => {
             setActiveTab(value);
             if (value === 'global') {
@@ -288,11 +288,11 @@ const Chat = ({
               setActiveChatId(`private-${firstPrivateChat}`);
             }
           }}>
-            <TabsList className="grid w-full grid-cols-2 bg-slate-700">
-              <TabsTrigger value="global" className="data-[state=active]:bg-green-600">
+            <TabsList className="grid w-full grid-cols-2 bg-slate-700 h-8">
+              <TabsTrigger value="global" className="data-[state=active]:bg-green-600 text-xs h-6">
                 Глобальный
               </TabsTrigger>
-              <TabsTrigger value="private" className="data-[state=active]:bg-blue-600">
+              <TabsTrigger value="private" className="data-[state=active]:bg-blue-600 text-xs h-6">
                 Приватный
               </TabsTrigger>
             </TabsList>
