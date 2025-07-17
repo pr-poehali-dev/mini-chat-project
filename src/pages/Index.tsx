@@ -22,6 +22,7 @@ const Index = () => {
   const [isPrivateChatOpen, setIsPrivateChatOpen] = useState(false);
   const [isChatVisible, setIsChatVisible] = useState(true);
   const [isChatFullscreen, setIsChatFullscreen] = useState(false);
+  const [blockedUsers, setBlockedUsers] = useState(new Set(['TestUser']));
   const [lastMessageTime, setLastMessageTime] = useState(0);
   const [cooldownRemaining, setCooldownRemaining] = useState(0);
 
@@ -171,6 +172,24 @@ const Index = () => {
     setIsChatFullscreen(!isChatFullscreen);
   };
 
+  const handleBlockUser = (username: string) => {
+    setBlockedUsers(new Set([...blockedUsers, username]));
+  };
+
+  const handleUnblockUser = (username: string) => {
+    const newBlockedUsers = new Set(blockedUsers);
+    newBlockedUsers.delete(username);
+    setBlockedUsers(newBlockedUsers);
+  };
+
+  const getBlockedMessageCount = (chatId: string) => {
+    if (chatId === 'global') {
+      return chatMessages.filter(msg => msg.type === 'global' && blockedUsers.has(msg.user)).length;
+    }
+    const username = chatId.replace('private-', '');
+    return chatMessages.filter(msg => msg.chatId === chatId && blockedUsers.has(msg.user)).length;
+  };
+
   return (
     <div className="min-h-screen bg-slate-900 text-white">
       <Header onToggleChat={toggleChat} />
@@ -198,6 +217,10 @@ const Index = () => {
               cooldownRemaining={cooldownRemaining}
               isFullscreen={isChatFullscreen}
               onToggleFullscreen={toggleChatFullscreen}
+              blockedUsers={blockedUsers}
+              onBlockUser={handleBlockUser}
+              onUnblockUser={handleUnblockUser}
+              getBlockedMessageCount={getBlockedMessageCount}
             />
           </div>
 
