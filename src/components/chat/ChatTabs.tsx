@@ -80,9 +80,9 @@ const ChatTabs = ({
                     chatInfo.unreadCount > 0 ? 'text-white' : ''
                   }`}>
                     {username}
-                    {chatInfo.unreadCount > 0 && (
-                      <span className="bg-red-500 text-white text-xs rounded-full px-2 py-0.5 min-w-[20px] h-5 flex items-center justify-center shadow-lg animate-pulse">
-                        {chatInfo.unreadCount}
+{chatInfo.unreadCount > 0 && (
+                      <span className="bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5 min-w-[18px] h-[18px] flex items-center justify-center shadow-lg animate-pulse font-medium">
+                        {chatInfo.unreadCount > 9 ? '9+' : chatInfo.unreadCount}
                       </span>
                     )}
                   </div>
