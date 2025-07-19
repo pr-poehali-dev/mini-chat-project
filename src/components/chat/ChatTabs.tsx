@@ -44,7 +44,7 @@ const ChatTabs = ({
               </span>
             )}
           </TabsTrigger>
-          <TabsTrigger value="private" className="data-[state=active]:bg-blue-600 dark:data-[state=active]:bg-blue-600 data-[state=active]:bg-blue-500 text-xs h-6 relative">
+          <TabsTrigger value="private" className="data-[state=active]:bg-slate-600 dark:data-[state=active]:bg-slate-600 text-xs h-6 relative">
             Приватный
             {privateUnreadCount > 0 && (
               <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5 min-w-[18px] h-[18px] flex items-center justify-center animate-pulse">
@@ -61,10 +61,12 @@ const ChatTabs = ({
             <button
               key={username}
               onClick={() => onChatSelect(`private-${username}`)}
-              className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors ${
+              className={`w-full text-left px-3 py-2 rounded-md text-sm transition-all duration-300 ${
                 activeChatId === `private-${username}` 
-                  ? 'bg-blue-600 dark:bg-blue-600 bg-blue-500 text-white' 
+                  ? 'bg-slate-600 dark:bg-slate-600 text-white' 
                   : 'hover:bg-slate-600 dark:hover:bg-slate-600 hover:bg-gray-100 text-slate-300 dark:text-slate-300 text-gray-700'
+              } ${
+                chatInfo.unreadCount > 0 ? 'ring-2 ring-red-400 ring-opacity-40 shadow-lg shadow-red-400/20 bg-gradient-to-r from-red-500/10 to-transparent border-l-4 border-red-500' : ''
               }`}
             >
               <div className="flex items-center space-x-2">
@@ -74,9 +76,22 @@ const ChatTabs = ({
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex-1 min-w-0">
-                  <div className="font-medium text-sm">{username}</div>
+                  <div className={`font-medium text-sm flex items-center justify-between ${
+                    chatInfo.unreadCount > 0 ? 'text-white' : ''
+                  }`}>
+                    {username}
+                    {chatInfo.unreadCount > 0 && (
+                      <span className="bg-red-500 text-white text-xs rounded-full px-2 py-0.5 min-w-[20px] h-5 flex items-center justify-center shadow-lg animate-pulse">
+                        {chatInfo.unreadCount}
+                      </span>
+                    )}
+                  </div>
                   {chatInfo.lastMessage && (
-                    <div className="text-xs text-slate-400 dark:text-slate-400 text-gray-500 truncate">
+                    <div className={`text-xs truncate ${
+                      chatInfo.unreadCount > 0 
+                        ? 'text-red-100 font-medium' 
+                        : 'text-slate-400 dark:text-slate-400 text-gray-500'
+                    }`}>
                       {chatInfo.lastMessageFrom === 'Вы' ? 'Вы: ' : ''}{chatInfo.lastMessage}
                     </div>
                   )}
