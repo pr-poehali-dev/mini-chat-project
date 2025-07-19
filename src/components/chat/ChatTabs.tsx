@@ -61,14 +61,18 @@ const ChatTabs = ({
             <button
               key={username}
               onClick={() => onChatSelect(`private-${username}`)}
-              className={`w-full text-left px-3 py-2 rounded-md text-sm transition-all duration-300 ${
+              className={`w-full text-left px-3 py-2 rounded-md text-sm transition-all duration-300 relative ${
                 activeChatId === `private-${username}` 
                   ? 'bg-slate-600 dark:bg-slate-600 text-white' 
                   : 'hover:bg-slate-600 dark:hover:bg-slate-600 hover:bg-gray-100 text-slate-300 dark:text-slate-300 text-gray-700'
               } ${
-                chatInfo.unreadCount > 0 ? 'ring-2 ring-red-400 ring-opacity-40 shadow-lg shadow-red-400/20 bg-gradient-to-r from-red-500/10 to-transparent border-l-4 border-red-500' : ''
+                chatInfo.unreadCount > 0 ? 'ring-2 ring-red-400 ring-opacity-40 shadow-lg shadow-red-400/20 bg-gradient-to-r from-red-500/10 to-transparent' : ''
               }`}
             >
+              {/* Красный индикатор слева для непрочитанных сообщений */}
+              {chatInfo.unreadCount > 0 && (
+                <div className="absolute left-0 top-0 bottom-0 w-1 bg-red-500 rounded-l-md"></div>
+              )}
               <div className="flex items-center space-x-2">
                 <Avatar className="w-6 h-6">
                   <AvatarFallback className="text-xs">
@@ -79,7 +83,7 @@ const ChatTabs = ({
                   <div className={`font-medium text-sm flex items-center justify-between ${
                     chatInfo.unreadCount > 0 ? 'text-white' : ''
                   }`}>
-                    {username}
+                    <span className="truncate">{username}</span>
                     {chatInfo.unreadCount > 0 && (
                       <span className="bg-red-500 text-white text-xs rounded-full px-2 py-0.5 min-w-[20px] h-5 flex items-center justify-center shadow-lg animate-pulse">
                         {chatInfo.unreadCount}
