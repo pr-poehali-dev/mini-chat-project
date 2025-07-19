@@ -1,6 +1,12 @@
 import { Button } from '@/components/ui/button';
 import { CardHeader, CardTitle } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 interface ChatHeaderProps {
   isPrivateChatOpen: boolean;
@@ -54,35 +60,71 @@ const ChatHeader = ({
           )}
         </CardTitle>
         <div className="flex items-center space-x-1">
-          {isPrivateChatOpen && activeTab === 'private' && (
+          {/* Десктопная версия */}
+          <div className="hidden md:flex items-center space-x-1">
+            {isPrivateChatOpen && activeTab === 'private' && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={onBackToChats}
+                className="text-slate-400 dark:text-slate-400 text-gray-500 hover:text-white dark:hover:text-white hover:text-gray-900 h-7 px-2"
+              >
+                <Icon name="ArrowLeft" size={14} className="mr-1" />
+                Все чаты
+              </Button>
+            )}
+            {onToggleFullscreen && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={onToggleFullscreen}
+                className={`text-slate-400 dark:text-slate-400 text-gray-500 hover:text-white dark:hover:text-white hover:text-gray-900 h-7 w-7 p-0 ${!isFullscreen ? 'hidden lg:flex' : ''}`}
+              >
+                <Icon name={isFullscreen ? "Minimize2" : "Maximize2"} size={14} />
+              </Button>
+            )}
             <Button
               variant="ghost"
               size="sm"
-              onClick={onBackToChats}
-              className="text-slate-400 dark:text-slate-400 text-gray-500 hover:text-white dark:hover:text-white hover:text-gray-900 h-7 px-2"
+              onClick={onClose}
+              className="text-slate-400 dark:text-slate-400 text-gray-500 hover:text-white dark:hover:text-white hover:text-gray-900 h-7 w-7 p-0"
             >
-              <Icon name="ArrowLeft" size={14} className="mr-1" />
-              Все чаты
+              <Icon name="X" size={14} />
             </Button>
-          )}
-          {onToggleFullscreen && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onToggleFullscreen}
-              className={`text-slate-400 dark:text-slate-400 text-gray-500 hover:text-white dark:hover:text-white hover:text-gray-900 h-7 w-7 p-0 ${!isFullscreen ? 'hidden lg:flex' : ''}`}
-            >
-              <Icon name={isFullscreen ? "Minimize2" : "Maximize2"} size={14} />
-            </Button>
-          )}
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={onClose}
-            className="text-slate-400 dark:text-slate-400 text-gray-500 hover:text-white dark:hover:text-white hover:text-gray-900 h-7 w-7 p-0"
-          >
-            <Icon name="X" size={14} />
-          </Button>
+          </div>
+
+          {/* Мобильная версия - меню бургер */}
+          <div className="md:hidden">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-slate-400 dark:text-slate-400 text-gray-500 hover:text-white dark:hover:text-white hover:text-gray-900 h-7 w-7 p-0"
+                >
+                  <Icon name="Menu" size={16} />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                {isPrivateChatOpen && activeTab === 'private' && (
+                  <DropdownMenuItem onClick={onBackToChats}>
+                    <Icon name="ArrowLeft" size={14} className="mr-2" />
+                    Все чаты
+                  </DropdownMenuItem>
+                )}
+                {onToggleFullscreen && (
+                  <DropdownMenuItem onClick={onToggleFullscreen}>
+                    <Icon name={isFullscreen ? "Minimize2" : "Maximize2"} size={14} className="mr-2" />
+                    {isFullscreen ? 'Обычный режим' : 'Полный экран'}
+                  </DropdownMenuItem>
+                )}
+                <DropdownMenuItem onClick={onClose}>
+                  <Icon name="X" size={14} className="mr-2" />
+                  Закрыть чат
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
       </div>
     </CardHeader>
