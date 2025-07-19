@@ -68,16 +68,6 @@ const ChatContainer = ({
     ? "bg-slate-800 dark:bg-slate-800 bg-white border-slate-700 dark:border-slate-700 border-gray-200 h-full flex flex-col rounded-none"
     : "bg-slate-800 dark:bg-slate-800 bg-white border-slate-700 dark:border-slate-700 border-gray-200 h-[400px] md:h-[600px] lg:h-[calc(100vh-120px)] lg:max-h-[800px] flex flex-col";
 
-  // Получаем количество непрочитанных сообщений для текущего чата
-  const getCurrentChatUnreadCount = () => {
-    if (isPrivateChatOpen && activeTab === 'private' && activeChatId !== 'global') {
-      const username = activeChatId.replace('private-', '');
-      const chatInfo = privateChats.get(username);
-      return chatInfo?.unreadCount || 0;
-    }
-    return 0;
-  };
-
   return (
     <div className={containerClass}>
       <Card className={cardClass}>
@@ -90,7 +80,6 @@ const ChatContainer = ({
           onToggleFullscreen={onToggleFullscreen}
           onClose={onClose}
           privateChats={privateChats}
-          currentChatUnreadCount={getCurrentChatUnreadCount()}
         />
         
         <ChatTabs

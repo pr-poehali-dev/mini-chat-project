@@ -11,7 +11,6 @@ interface ChatHeaderProps {
   onToggleFullscreen?: () => void;
   onClose: () => void;
   privateChats?: Map<string, any>;
-  currentChatUnreadCount?: number;
 }
 
 const ChatHeader = ({
@@ -22,8 +21,7 @@ const ChatHeader = ({
   onBackToChats,
   onToggleFullscreen,
   onClose,
-  privateChats,
-  currentChatUnreadCount = 0
+  privateChats
 }: ChatHeaderProps) => {
   return (
     <CardHeader className="pb-2 pt-3">
@@ -35,12 +33,6 @@ const ChatHeader = ({
               : isFullscreen ? 'Чат (Полноэкранный режим)' : 'Чат'
             }
           </span>
-          {/* Индикатор новых сообщений в конкретном чате */}
-          {isPrivateChatOpen && activeTab === 'private' && currentChatUnreadCount > 0 && (
-            <span className="bg-red-500 text-white text-xs rounded-full px-2 py-0.5 min-w-[20px] h-5 flex items-center justify-center shadow-lg animate-pulse font-medium">
-              {currentChatUnreadCount > 9 ? '9+' : currentChatUnreadCount}
-            </span>
-          )}
           {/* Индикатор онлайн */}
           {!isPrivateChatOpen && (
             <>
