@@ -1,6 +1,8 @@
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import { useUnreadCount } from '@/hooks/useUnreadCount';
+import Icon from '@/components/ui/icon';
 
 interface ChatTabsProps {
   activeTab: string;
@@ -37,11 +39,28 @@ const ChatTabs = ({
     unreadCount: globalUnreadCount
   });
   
-  // Используем хук для обновления favicon
-  useUnreadCount({ chats: chatsForUnreadCount });
+  // Используем хук для обновления favicon с передачей активного чата
+  const { markAsRead, totalUnreadCount } = useUnreadCount({ 
+    chats: chatsForUnreadCount,
+    activeChatId 
+  });
 
   return (
     <div className="px-4 pb-2">
+      {/* Кнопка для сброса всех уведомлений */}
+      {totalUnreadCount > 0 && (
+        <div className="mb-2 flex justify-end">
+          <Button
+            onClick={() => markAsRead()}
+            variant="ghost"
+            size="sm"
+            className="text-xs text-gray-500 hover:text-gray-700 h-6 px-2"
+          >
+            <Icon name="CheckCheck" size={12} className="mr-1" />
+            Отметить все как прочитанное
+          </Button>
+        </div>
+      )}
       <Tabs value={activeTab} onValueChange={(value) => {
         setActiveTab(value);
         if (value === 'global') {
