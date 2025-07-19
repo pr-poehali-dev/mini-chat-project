@@ -62,9 +62,16 @@ const Header = ({ onToggleChat, globalUnreadCount = 0, privateUnreadCount = 0 }:
             >
               <Icon name="MessageCircle" size={16} className="mr-2" />
               Чат
-              {(globalUnreadCount > 0 || privateUnreadCount > 0) && (
-                <div className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                  {globalUnreadCount + privateUnreadCount}
+              {/* Глобальный чат индикатор */}
+              {globalUnreadCount > 0 && (
+                <div className="absolute -top-1 -right-1 bg-green-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium z-10">
+                  {globalUnreadCount}
+                </div>
+              )}
+              {/* Приватный чат индикатор */}
+              {privateUnreadCount > 0 && (
+                <div className={`absolute -top-1 bg-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium z-10 ${globalUnreadCount > 0 ? '-right-7' : '-right-1'}`}>
+                  {privateUnreadCount}
                 </div>
               )}
             </Button>
@@ -83,9 +90,16 @@ const Header = ({ onToggleChat, globalUnreadCount = 0, privateUnreadCount = 0 }:
               className="border-slate-600 dark:border-slate-600 border-gray-300 hover:bg-slate-700 dark:hover:bg-slate-700 hover:bg-gray-100 relative"
             >
               <Icon name="MessageCircle" size={16} />
-              {(globalUnreadCount > 0 || privateUnreadCount > 0) && (
-                <div className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium">
-                  {globalUnreadCount + privateUnreadCount > 9 ? '9+' : globalUnreadCount + privateUnreadCount}
+              {/* Глобальный чат индикатор */}
+              {globalUnreadCount > 0 && (
+                <div className="absolute -top-1 -right-1 bg-green-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium z-10">
+                  {globalUnreadCount > 9 ? '9+' : globalUnreadCount}
+                </div>
+              )}
+              {/* Приватный чат индикатор */}
+              {privateUnreadCount > 0 && (
+                <div className={`absolute -top-1 bg-blue-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium z-10 ${globalUnreadCount > 0 ? '-right-6' : '-right-1'}`}>
+                  {privateUnreadCount > 9 ? '9+' : privateUnreadCount}
                 </div>
               )}
             </Button>
