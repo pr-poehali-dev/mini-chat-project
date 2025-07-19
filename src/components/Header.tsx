@@ -54,27 +54,32 @@ const Header = ({ onToggleChat, globalUnreadCount = 0, privateUnreadCount = 0 }:
               <Icon name="Plus" size={16} className="mr-2" />
               Add Listing
             </Button>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={onToggleChat}
-              className="border-slate-600 dark:border-slate-600 border-gray-300 hover:bg-slate-700 dark:hover:bg-slate-700 hover:bg-gray-100 relative"
-            >
-              <Icon name="MessageCircle" size={16} className="mr-2" />
-              Чат
-              {/* Глобальный чат индикатор */}
-              {globalUnreadCount > 0 && (
-                <div className="absolute -top-1 -right-1 bg-green-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium z-10">
-                  {globalUnreadCount}
-                </div>
-              )}
-              {/* Приватный чат индикатор */}
-              {privateUnreadCount > 0 && (
-                <div className={`absolute -top-1 bg-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium z-10 ${globalUnreadCount > 0 ? '-right-7' : '-right-1'}`}>
-                  {privateUnreadCount}
-                </div>
-              )}
-            </Button>
+            <div className="relative">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={onToggleChat}
+                className="border-slate-600 dark:border-slate-600 border-gray-300 hover:bg-slate-700 dark:hover:bg-slate-700 hover:bg-gray-100"
+              >
+                <Icon name="MessageCircle" size={16} className="mr-2" />
+                Чат
+              </Button>
+              {/* Индикаторы уведомлений */}
+              <div className="absolute -top-2 -right-2 flex space-x-1">
+                {/* Глобальный чат (синий) */}
+                {globalUnreadCount > 0 && (
+                  <div className="bg-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium shadow-lg border border-slate-800">
+                    {globalUnreadCount}
+                  </div>
+                )}
+                {/* Приватный чат (красный) */}
+                {privateUnreadCount > 0 && (
+                  <div className="bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium shadow-lg border border-slate-800">
+                    {privateUnreadCount}
+                  </div>
+                )}
+              </div>
+            </div>
             <Button variant="destructive">
               <Icon name="LogOut" size={16} className="mr-2" />
               Logout
@@ -83,26 +88,31 @@ const Header = ({ onToggleChat, globalUnreadCount = 0, privateUnreadCount = 0 }:
 
           {/* Мобильная версия - бургер меню */}
           <div className="md:hidden flex items-center space-x-2">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={onToggleChat}
-              className="border-slate-600 dark:border-slate-600 border-gray-300 hover:bg-slate-700 dark:hover:bg-slate-700 hover:bg-gray-100 relative"
-            >
-              <Icon name="MessageCircle" size={16} />
-              {/* Глобальный чат индикатор */}
-              {globalUnreadCount > 0 && (
-                <div className="absolute -top-1 -right-1 bg-green-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium z-10">
-                  {globalUnreadCount > 9 ? '9+' : globalUnreadCount}
-                </div>
-              )}
-              {/* Приватный чат индикатор */}
-              {privateUnreadCount > 0 && (
-                <div className={`absolute -top-1 bg-blue-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium z-10 ${globalUnreadCount > 0 ? '-right-6' : '-right-1'}`}>
-                  {privateUnreadCount > 9 ? '9+' : privateUnreadCount}
-                </div>
-              )}
-            </Button>
+            <div className="relative">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={onToggleChat}
+                className="border-slate-600 dark:border-slate-600 border-gray-300 hover:bg-slate-700 dark:hover:bg-slate-700 hover:bg-gray-100"
+              >
+                <Icon name="MessageCircle" size={16} />
+              </Button>
+              {/* Индикаторы уведомлений */}
+              <div className="absolute -top-2 -right-2 flex space-x-1">
+                {/* Глобальный чат (синий) */}
+                {globalUnreadCount > 0 && (
+                  <div className="bg-blue-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium shadow-lg border border-slate-800">
+                    {globalUnreadCount > 9 ? '9+' : globalUnreadCount}
+                  </div>
+                )}
+                {/* Приватный чат (красный) */}
+                {privateUnreadCount > 0 && (
+                  <div className="bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium shadow-lg border border-slate-800">
+                    {privateUnreadCount > 9 ? '9+' : privateUnreadCount}
+                  </div>
+                )}
+              </div>
+            </div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
