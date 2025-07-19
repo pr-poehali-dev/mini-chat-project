@@ -37,6 +37,12 @@ const ChatTabs = ({
     unreadCount: globalUnreadCount
   });
   
+  // ТЕСТ: добавляем тестовые непрочитанные сообщения для проверки
+  chatsForUnreadCount.push({
+    id: 'test',
+    unreadCount: 3
+  });
+  
   // Используем хук для обновления favicon
   useUnreadCount({ chats: chatsForUnreadCount });
 

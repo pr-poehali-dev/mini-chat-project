@@ -3,6 +3,7 @@
  */
 
 export function updateFaviconWithBadge(count: number) {
+  console.log('🚀 Обновляем favicon с количеством уведомлений:', count);
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
   const size = 32;
@@ -39,24 +40,24 @@ export function updateFaviconWithBadge(count: number) {
   
   // Если есть уведомления, добавляем красный бейдж
   if (count > 0) {
-    const badgeSize = 12;
-    const badgeX = size - badgeSize / 2 - 2;
-    const badgeY = badgeSize / 2 + 2;
+    const badgeSize = 16; // Увеличиваем размер
+    const badgeX = size - badgeSize / 2 - 1;
+    const badgeY = badgeSize / 2 + 1;
     
-    // Красный круг для бейджа
-    ctx.fillStyle = '#ef4444'; // red-500
+    // Красный круг для бейджа (ярче)
+    ctx.fillStyle = '#dc2626'; // red-600 - более яркий красный
     ctx.beginPath();
     ctx.arc(badgeX, badgeY, badgeSize / 2, 0, 2 * Math.PI);
     ctx.fill();
     
-    // Белая обводка
+    // Белая обводка (толще)
     ctx.strokeStyle = '#ffffff';
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 2;
     ctx.stroke();
     
-    // Текст счетчика
+    // Текст счетчика (крупнее)
     ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 8px Arial';
+    ctx.font = 'bold 10px Arial';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     
