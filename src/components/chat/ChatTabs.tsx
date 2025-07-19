@@ -74,21 +74,20 @@ const ChatTabs = ({
                 <div className="absolute left-0 top-0 bottom-0 w-1 bg-red-500 rounded-l-md"></div>
               )}
               <div className="flex items-center space-x-2">
+                {/* Красная точка-индикатор справа для непрочитанных сообщений */}
+                {chatInfo.unreadCount > 0 && (
+                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                )}
                 <Avatar className="w-6 h-6">
                   <AvatarFallback className="text-xs">
                     {username.slice(0, 2)}
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex-1 min-w-0">
-                  <div className={`font-medium text-sm flex items-center justify-between ${
+                  <div className={`font-medium text-sm flex items-center ${
                     chatInfo.unreadCount > 0 ? 'text-white' : ''
                   }`}>
                     <span className="truncate">{username}</span>
-                    {chatInfo.unreadCount > 0 && (
-                      <span className="bg-red-500 text-white text-xs rounded-full px-2 py-0.5 min-w-[20px] h-5 flex items-center justify-center shadow-lg animate-pulse">
-                        {chatInfo.unreadCount}
-                      </span>
-                    )}
                   </div>
                   {chatInfo.lastMessage && (
                     <div className={`text-xs truncate ${
