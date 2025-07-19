@@ -227,7 +227,11 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-slate-900 dark:bg-slate-900 bg-gray-50 text-white dark:text-white text-gray-900">
-      <Header onToggleChat={toggleChat} />
+      <Header 
+        onToggleChat={toggleChat} 
+        globalUnreadCount={globalUnreadCount}
+        privateUnreadCount={privateUnreadCount}
+      />
       
       <div className="max-w-7xl mx-auto p-3 md:p-6">
         <div className={`grid gap-3 md:gap-6 ${isChatVisible ? 'grid-cols-1 lg:grid-cols-3' : 'grid-cols-1'}`}>

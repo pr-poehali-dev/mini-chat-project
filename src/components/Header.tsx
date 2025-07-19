@@ -12,9 +12,11 @@ import {
 
 interface HeaderProps {
   onToggleChat: () => void;
+  globalUnreadCount?: number;
+  privateUnreadCount?: number;
 }
 
-const Header = ({ onToggleChat }: HeaderProps) => {
+const Header = ({ onToggleChat, globalUnreadCount = 0, privateUnreadCount = 0 }: HeaderProps) => {
   const { theme, toggleTheme } = useTheme();
   
   return (
@@ -56,10 +58,15 @@ const Header = ({ onToggleChat }: HeaderProps) => {
               variant="outline" 
               size="sm" 
               onClick={onToggleChat}
-              className="border-slate-600 dark:border-slate-600 border-gray-300 hover:bg-slate-700 dark:hover:bg-slate-700 hover:bg-gray-100"
+              className="border-slate-600 dark:border-slate-600 border-gray-300 hover:bg-slate-700 dark:hover:bg-slate-700 hover:bg-gray-100 relative"
             >
               <Icon name="MessageCircle" size={16} className="mr-2" />
               Чат
+              {(globalUnreadCount > 0 || privateUnreadCount > 0) && (
+                <div className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
+                  {globalUnreadCount + privateUnreadCount}
+                </div>
+              )}
             </Button>
             <Button variant="destructive">
               <Icon name="LogOut" size={16} className="mr-2" />
@@ -73,9 +80,14 @@ const Header = ({ onToggleChat }: HeaderProps) => {
               variant="outline" 
               size="sm" 
               onClick={onToggleChat}
-              className="border-slate-600 dark:border-slate-600 border-gray-300 hover:bg-slate-700 dark:hover:bg-slate-700 hover:bg-gray-100"
+              className="border-slate-600 dark:border-slate-600 border-gray-300 hover:bg-slate-700 dark:hover:bg-slate-700 hover:bg-gray-100 relative"
             >
               <Icon name="MessageCircle" size={16} />
+              {(globalUnreadCount > 0 || privateUnreadCount > 0) && (
+                <div className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium">
+                  {globalUnreadCount + privateUnreadCount > 9 ? '9+' : globalUnreadCount + privateUnreadCount}
+                </div>
+              )}
             </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
