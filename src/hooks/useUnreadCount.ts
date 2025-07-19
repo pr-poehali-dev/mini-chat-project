@@ -13,9 +13,7 @@ interface UseUnreadCountProps {
 export function useUnreadCount({ chats }: UseUnreadCountProps) {
   // Подсчитываем общее количество непрочитанных сообщений
   const totalUnreadCount = useMemo(() => {
-    const total = chats.reduce((total, chat) => total + chat.unreadCount, 0);
-    console.log('📊 Подсчёт непрочитанных:', { chats, total });
-    return total;
+    return chats.reduce((total, chat) => total + chat.unreadCount, 0);
   }, [chats]);
 
   // Обновляем favicon при изменении количества непрочитанных
