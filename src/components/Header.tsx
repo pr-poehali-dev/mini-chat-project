@@ -2,6 +2,13 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import Icon from '@/components/ui/icon';
 import { useTheme } from '@/contexts/ThemeContext';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+} from '@/components/ui/dropdown-menu';
 
 interface HeaderProps {
   onToggleChat: () => void;
@@ -21,47 +28,87 @@ const Header = ({ onToggleChat }: HeaderProps) => {
           <h1 className="text-lg md:text-xl font-bold">Discord Ads Board</h1>
         </div>
         <div className="flex items-center space-x-2 md:space-x-4">
-          <Select defaultValue="en">
-            <SelectTrigger className="w-12 md:w-16 bg-slate-700 dark:bg-slate-700 bg-gray-100 border-slate-600 dark:border-slate-600 border-gray-300">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="en">EN</SelectItem>
-              <SelectItem value="ru">RU</SelectItem>
-            </SelectContent>
-          </Select>
-          <Button 
-            variant="outline" 
-            size="sm" 
-            onClick={toggleTheme}
-            className="border-slate-600 dark:border-slate-600 border-gray-300 hover:bg-slate-700 dark:hover:bg-slate-700 hover:bg-gray-100 hidden md:flex"
-          >
-            <Icon name={theme === 'light' ? 'Moon' : 'Sun'} size={16} className="mr-2" />
-            {theme === 'light' ? 'Dark' : 'Light'}
-          </Button>
-          <Button className="bg-blue-600 hover:bg-blue-700 hidden md:flex">
-            <Icon name="Plus" size={16} className="mr-2" />
-            Add Listing
-          </Button>
-          <Button className="bg-blue-600 hover:bg-blue-700 md:hidden">
-            <Icon name="Plus" size={16} />
-          </Button>
-          <Button 
-            variant="outline" 
-            size="sm" 
-            onClick={onToggleChat}
-            className="border-slate-600 dark:border-slate-600 border-gray-300 hover:bg-slate-700 dark:hover:bg-slate-700 hover:bg-gray-100"
-          >
-            <Icon name="MessageCircle" size={16} className="mr-0 md:mr-2" />
-            <span className="hidden md:inline">Чат</span>
-          </Button>
-          <Button variant="destructive" className="hidden md:flex">
-            <Icon name="LogOut" size={16} className="mr-2" />
-            Logout
-          </Button>
-          <Button variant="destructive" size="sm" className="md:hidden">
-            <Icon name="LogOut" size={16} />
-          </Button>
+          {/* Десктопная версия */}
+          <div className="hidden md:flex items-center space-x-4">
+            <Select defaultValue="en">
+              <SelectTrigger className="w-16 bg-slate-700 dark:bg-slate-700 bg-gray-100 border-slate-600 dark:border-slate-600 border-gray-300">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="en">EN</SelectItem>
+                <SelectItem value="ru">RU</SelectItem>
+              </SelectContent>
+            </Select>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={toggleTheme}
+              className="border-slate-600 dark:border-slate-600 border-gray-300 hover:bg-slate-700 dark:hover:bg-slate-700 hover:bg-gray-100"
+            >
+              <Icon name={theme === 'light' ? 'Moon' : 'Sun'} size={16} className="mr-2" />
+              {theme === 'light' ? 'Dark' : 'Light'}
+            </Button>
+            <Button className="bg-blue-600 hover:bg-blue-700">
+              <Icon name="Plus" size={16} className="mr-2" />
+              Add Listing
+            </Button>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={onToggleChat}
+              className="border-slate-600 dark:border-slate-600 border-gray-300 hover:bg-slate-700 dark:hover:bg-slate-700 hover:bg-gray-100"
+            >
+              <Icon name="MessageCircle" size={16} className="mr-2" />
+              Чат
+            </Button>
+            <Button variant="destructive">
+              <Icon name="LogOut" size={16} className="mr-2" />
+              Logout
+            </Button>
+          </div>
+
+          {/* Мобильная версия - бургер меню */}
+          <div className="md:hidden flex items-center space-x-2">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={onToggleChat}
+              className="border-slate-600 dark:border-slate-600 border-gray-300 hover:bg-slate-700 dark:hover:bg-slate-700 hover:bg-gray-100"
+            >
+              <Icon name="MessageCircle" size={16} />
+            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="border-slate-600 dark:border-slate-600 border-gray-300 hover:bg-slate-700 dark:hover:bg-slate-700 hover:bg-gray-100"
+                >
+                  <Icon name="Menu" size={16} />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem>
+                  <Icon name="Globe" size={14} className="mr-2" />
+                  Язык: EN
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={toggleTheme}>
+                  <Icon name={theme === 'light' ? 'Moon' : 'Sun'} size={14} className="mr-2" />
+                  {theme === 'light' ? 'Темная тема' : 'Светлая тема'}
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <Icon name="Plus" size={14} className="mr-2" />
+                  Добавить объявление
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <Icon name="LogOut" size={14} className="mr-2" />
+                  Выйти
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
       </div>
     </header>
